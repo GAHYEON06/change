@@ -285,171 +285,166 @@ body { padding-bottom: 100px; }
 const SUPABASE_URL = 'https://yvcnynqqqvljmquwlrjo.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_0EGba1kMl0tQjcWjX2chaA_XwkO2cJu';
 
-let supabase = null;
-let qIdx = 0;
-let answers = [];
+const app = {
+  db: null,
+  idx: 0,
+  ans: [],
+  Q: [
+    {t:"아침에 눈을 떴을 때, 하루를 시작할 기운이 없었다"},
+    {t:"평소 좋아하던 일에도 흥미가 잘 생기지 않았다"},
+    {t:"특별한 이유 없이 마음이 가라앉거나 울적했다"},
+    {t:"잠들기 어렵거나, 자고 나도 개운하지 않았다"},
+    {t:"사소한 일에도 예민해지고 짜증이 났다"},
+    {t:"사람들과 함께 있어도 혼자인 것처럼 느껴졌다"},
+    {t:"수업이나 해야 할 일에 집중하기 어려웠다"},
+    {t:"나는 잘하는 게 없다는 생각이 들었다"},
+    {t:"하루 중 마음이 편안해지는 순간이 있었다"},
+    {t:"힘들 때 이야기할 사람이 떠올랐다"}
+  ],
+  OPT: ["거의 없었다","가끔 그랬다","자주 그랬다","거의 매일 그랬다"],
 
-const Q = [
-  {t:"아침에 눈을 떴을 때, 하루를 시작할 기운이 없었다"},
-  {t:"평소 좋아하던 일에도 흥미가 잘 생기지 않았다"},
-  {t:"특별한 이유 없이 마음이 가라앉거나 울적했다"},
-  {t:"잠들기 어렵거나, 자고 나도 개운하지 않았다"},
-  {t:"사소한 일에도 예민해지고 짜증이 났다"},
-  {t:"사람들과 함께 있어도 혼자인 것처럼 느껴졌다"},
-  {t:"수업이나 해야 할 일에 집중하기 어려웠다"},
-  {t:"나는 잘하는 게 없다는 생각이 들었다"},
-  {t:"하루 중 마음이 편안해지는 순간이 있었다"},
-  {t:"힘들 때 이야기할 사람이 떠올랐다"}
-];
-const OPT = ["거의 없었다","가끔 그랬다","자주 그랬다","거의 매일 그랬다"];
+  init() {
+    try {
+      this.db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      console.log('✓ Supabase 연결');
+      this.loadCount();
+    } catch(e) {
+      console.log('✗ Supabase:', e);
+    }
+  },
 
-// Supabase 초기화
-try {
-  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  console.log('✓ Supabase 연결됨');
-  loadCount();
-} catch(e) {
-  console.log('Supabase 에러:', e);
-}
+  show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+    document.getElementById(id).classList.add('on');
+    window.scrollTo({top:0, behavior:'smooth'});
+  },
 
-// 화면 전환
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  window.scrollTo({top:0, behavior:'smooth'});
-}
+  renderQ() {
+    const q = this.Q[this.idx];
+    document.getElementById('qnum').textContent = `문항 ${this.idx + 1}`;
+    document.getElementById('qtext').textContent = q.t;
+    document.getElementById('count').textContent = `${this.idx + 1} / ${this.Q.length}`;
+    document.getElementById('fill').style.width = (this.idx / this.Q.length * 100) + '%';
+    document.getElementById('prevBtn').style.display = this.idx === 0 ? 'none' : 'block';
 
-// 시작
-document.getElementById('startBtn').onclick = function() {
-  qIdx = 0;
-  answers = new Array(Q.length).fill(null);
-  show('s-quiz');
-  renderQ();
-};
+    const crystalIdx = Math.floor(this.idx / 3);
+    document.getElementById('mascot-q').src = `crystal_${Math.min(crystalIdx, 3)}.png`;
 
-// 문항 렌더링
-function renderQ() {
-  const q = Q[qIdx];
-  document.getElementById('qnum').textContent = `문항 ${qIdx + 1}`;
-  document.getElementById('qtext').textContent = q.t;
-  document.getElementById('count').textContent = `${qIdx + 1} / ${Q.length}`;
-  document.getElementById('fill').style.width = (qIdx / Q.length * 100) + '%';
-  document.getElementById('prevBtn').style.display = qIdx === 0 ? 'none' : 'block';
+    const opts = document.getElementById('opts');
+    opts.innerHTML = '';
+    this.OPT.forEach((label, v) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (this.ans[this.idx] === v ? ' sel' : '');
+      btn.innerHTML = `<span class="dot"></span><span>${label}</span>`;
+      btn.onclick = () => this.pickAnswer(v);
+      opts.appendChild(btn);
+    });
+  },
 
-  // 크리스탈 이미지 변경
-  const crystalIdx = Math.floor(qIdx / 3);
-  document.getElementById('mascot-q').src = `crystal_${Math.min(crystalIdx, 3)}.png`;
+  pickAnswer(v) {
+    this.ans[this.idx] = v;
+    this.renderQ();
+    setTimeout(() => {
+      if (this.idx < this.Q.length - 1) {
+        this.idx++;
+        this.renderQ();
+      } else {
+        this.showResult();
+      }
+    }, 200);
+  },
 
-  const opts = document.getElementById('opts');
-  opts.innerHTML = '';
-  OPT.forEach((label, v) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt' + (answers[qIdx] === v ? ' sel' : '');
-    btn.innerHTML = `<span class="dot"></span><span>${label}</span>`;
-    btn.onclick = () => pickAnswer(v);
-    opts.appendChild(btn);
-  });
-}
+  prevQ() {
+    if (this.idx > 0) {
+      this.idx--;
+      this.renderQ();
+    }
+  },
 
-// 답변 선택
-function pickAnswer(v) {
-  answers[qIdx] = v;
-  renderQ();
-  setTimeout(() => {
-    if (qIdx < Q.length - 1) {
-      qIdx++;
-      renderQ();
+  showResult() {
+    let score = 0;
+    this.ans.forEach(v => score += (v === null ? 0 : v));
+    
+    const normScore = Math.round(score / 3);
+    
+    let result;
+    if (normScore <= 2) {
+      result = {img:'crystal_0.png', cls:'rest', band:'💧 녹아내리는 수정이', name:'마음이 <small>촉촉하게 쉬어가고 있어요</small>', desc:'지난 2주 동안 마음이 충분히 쉼표를 갖고 있었네요.', todo:[['🌧️','오늘 하루의 좋았던 한 가지를 생각하기'], ['💧','이 느낌을 사진이나 일기로 남겨두기'], ['☔','지금처럼 쉬어도 된다는 걸 자신에게 말해주기']]};
+    } else if (normScore <= 5) {
+      result = {img:'crystal_1.png', cls:'emerging', band:'🌤️ 구름 걷히는 수정이', name:'마음이 <small>회복 중이에요</small>', desc:'지난 2주가 조금 버거웠나 봐요. 하지만 이미 회복하려는 마음이 보여요.', todo:[['🌦️','이번 주 저녁 하나는 특별히 비워두기'], ['🧘','하루 10분, 좋아하는 활동에만 시간 쓰기'], ['📞','신뢰하는 사람에게 "요즘 어때?" 물어보기']]};
+    } else if (normScore <= 8) {
+      result = {img:'crystal_2.png', cls:'sunny', band:'☀️ 맑은 날의 수정이', name:'마음이 <small>생생하게 움직이고 있어요</small>', desc:'에너지가 활발한 지난 2주셨네요. 이 긍정적인 리듬을 유지해 보세요.', todo:[['☀️','좋은 컨디션의 비결 하나를 기억해두기'], ['✨','이 에너지로 할 수 있는 작은 목표 세우기'], ['🌟','요즘 자신의 노력을 자신에게 칭찬해주기']]};
     } else {
-      showResult();
+      result = {img:'crystal_3.png', cls:'rainbow', band:'🌈 무지개 수정이', name:'마음이 <small>최고조에 도달했어요</small>', desc:'지난 2주가 정말 좋은 시간이었나 봐요. 긍정적인 에너지가 넘치고 있어요.', todo:[['🌈','지금의 이 마음을 소중하게 간직해두기'], ['💫','이 시간을 함께한 사람들에게 감사 전하기'], ['⭐','앞으로도 이런 날들이 많아지길 바라며 일기 쓰기']]};
     }
-  }, 200);
-}
 
-// 이전 버튼
+    document.getElementById('mascot-r').src = result.img;
+    
+    const stepNum = normScore <= 2 ? 1 : normScore <= 5 ? 2 : normScore <= 8 ? 3 : 4;
+    const stepClass = {1:'', 2:'em', 3:'sun', 4:'rb'}[stepNum];
+    for (let s = 1; s <= 4; s++) {
+      const step = document.getElementById('s' + s);
+      step.className = 'step' + (s <= stepNum ? ' on ' + stepClass : '');
+    }
+    document.getElementById('progress-text').textContent = `${stepNum} / 4`;
+    
+    const b = document.getElementById('band');
+    b.className = 'band ' + result.cls;
+    b.textContent = result.band;
+    document.getElementById('rname').innerHTML = result.name;
+    document.getElementById('rdesc').textContent = result.desc;
+    document.getElementById('todos').innerHTML = result.todo.map(t => `<div class="todo-item ${result.cls}"><span class="ic">${t[0]}</span><span>${t[1]}</span></div>`).join('');
+
+    this.save(score, normScore, result.cls);
+    this.show('s-result');
+  },
+
+  async save(score, normScore, category) {
+    if (!this.db) return;
+    try {
+      await this.db.from('responses').insert([{
+        total_score: score,
+        normalized_score: normScore,
+        category: category,
+        answers: this.ans,
+        created_at: new Date().toISOString()
+      }]);
+      console.log('✓ 저장됨');
+      this.loadCount();
+    } catch (e) {
+      console.log('저장 실패:', e);
+    }
+  },
+
+  async loadCount() {
+    if (!this.db) return;
+    try {
+      const { count } = await this.db.from('responses').select('*', { count: 'exact', head: true });
+      document.getElementById('participant-count').textContent = count || 0;
+    } catch (e) {
+      console.log('카운트 실패:', e);
+    }
+  }
+};
+
+document.getElementById('startBtn').onclick = function() {
+  app.idx = 0;
+  app.ans = new Array(app.Q.length).fill(null);
+  app.show('s-quiz');
+  app.renderQ();
+};
+
 document.getElementById('prevBtn').onclick = function() {
-  if (qIdx > 0) {
-    qIdx--;
-    renderQ();
-  }
+  app.prevQ();
 };
 
-// 결과 화면
-function showResult() {
-  let score = 0;
-  answers.forEach(v => score += (v === null ? 0 : v));
-  
-  const normScore = Math.round(score / 3);
-  
-  let result;
-  if (normScore <= 2) {
-    result = {img:'crystal_0.png', cls:'rest', band:'💧 녹아내리는 수정이', name:'마음이 <small>촉촉하게 쉬어가고 있어요</small>', desc:'지난 2주 동안 마음이 충분히 쉼표를 갖고 있었네요.', todo:[['🌧️','오늘 하루의 좋았던 한 가지를 생각하기'], ['💧','이 느낌을 사진이나 일기로 남겨두기'], ['☔','지금처럼 쉬어도 된다는 걸 자신에게 말해주기']]};
-  } else if (normScore <= 5) {
-    result = {img:'crystal_1.png', cls:'emerging', band:'🌤️ 구름 걷히는 수정이', name:'마음이 <small>회복 중이에요</small>', desc:'지난 2주가 조금 버거웠나 봐요. 하지만 이미 회복하려는 마음이 보여요.', todo:[['🌦️','이번 주 저녁 하나는 특별히 비워두기'], ['🧘','하루 10분, 좋아하는 활동에만 시간 쓰기'], ['📞','신뢰하는 사람에게 "요즘 어때?" 물어보기']]};
-  } else if (normScore <= 8) {
-    result = {img:'crystal_2.png', cls:'sunny', band:'☀️ 맑은 날의 수정이', name:'마음이 <small>생생하게 움직이고 있어요</small>', desc:'에너지가 활발한 지난 2주셨네요. 이 긍정적인 리듬을 유지해 보세요.', todo:[['☀️','좋은 컨디션의 비결 하나를 기억해두기'], ['✨','이 에너지로 할 수 있는 작은 목표 세우기'], ['🌟','요즘 자신의 노력을 자신에게 칭찬해주기']]};
-  } else {
-    result = {img:'crystal_3.png', cls:'rainbow', band:'🌈 무지개 수정이', name:'마음이 <small>최고조에 도달했어요</small>', desc:'지난 2주가 정말 좋은 시간이었나 봐요. 긍정적인 에너지가 넘치고 있어요.', todo:[['🌈','지금의 이 마음을 소중하게 간직해두기'], ['💫','이 시간을 함께한 사람들에게 감사 전하기'], ['⭐','앞으로도 이런 날들이 많아지길 바라며 일기 쓰기']]};
-  }
-
-  document.getElementById('mascot-r').src = result.img;
-  
-  const stepNum = normScore <= 2 ? 1 : normScore <= 5 ? 2 : normScore <= 8 ? 3 : 4;
-  const stepClass = {1:'', 2:'em', 3:'sun', 4:'rb'}[stepNum];
-  for (let s = 1; s <= 4; s++) {
-    const step = document.getElementById('s' + s);
-    step.className = 'step' + (s <= stepNum ? ' on ' + stepClass : '');
-  }
-  document.getElementById('progress-text').textContent = `${stepNum} / 4`;
-  
-  const b = document.getElementById('band');
-  b.className = 'band ' + result.cls;
-  b.textContent = result.band;
-  document.getElementById('rname').innerHTML = result.name;
-  document.getElementById('rdesc').textContent = result.desc;
-  document.getElementById('todos').innerHTML = result.todo.map(t => `<div class="todo-item ${result.cls}"><span class="ic">${t[0]}</span><span>${t[1]}</span></div>`).join('');
-
-  saveData(score, normScore, result.cls);
-  show('s-result');
-}
-
-// Supabase 저장
-async function saveData(score, normScore, category) {
-  if (!supabase) return;
-  try {
-    const { error } = await supabase.from('responses').insert([{
-      total_score: score,
-      normalized_score: normScore,
-      category: category,
-      answers: answers,
-      created_at: new Date().toISOString()
-    }]);
-    if (error) console.log('저장 에러:', error);
-    else {
-      console.log('✓ 데이터 저장됨');
-      loadCount();
-    }
-  } catch (e) {
-    console.log('저장 실패:', e);
-  }
-}
-
-// 참여자 수 조회
-async function loadCount() {
-  if (!supabase) return;
-  try {
-    const { count, error } = await supabase.from('responses').select('*', { count: 'exact', head: true });
-    if (!error) document.getElementById('participant-count').textContent = count || 0;
-  } catch (e) {
-    console.log('카운트 에러:', e);
-  }
-}
-
-// 리셋
 document.getElementById('resetBtn').onclick = function() {
-  qIdx = 0;
-  answers = [];
-  show('s-intro');
+  app.idx = 0;
+  app.ans = [];
+  app.show('s-intro');
 };
+
+window.addEventListener('load', () => app.init());
 </script>
 </body>
 </html>
