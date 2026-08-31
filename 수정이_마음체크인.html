@@ -3,102 +3,194 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>수정이 마음 체크인 · 성신여대</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<title>수정이 마음 체크인</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--paper:#F5F9FC;--card:#FFFFFF;--ink:#2B3E50;--ink2:#6E7F8B;--rest:#6B9BD1;--rest-lt:#DCE7F3;--emerging:#F4C66B;--emerging-lt:#FEF3E0;--sunny:#FF9A5A;--sunny-lt:#FFE6D5;--rainbow:#8AC585;--rainbow-lt:#E8F5E8;--edge:#D0DEE8;--r:22px;}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{margin:0;padding:0;}
-body{font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;}
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 15% 10%, #E8F4FB 0 28%, transparent 29%),radial-gradient(circle at 90% 25%, #FFF5E8 0 22%, transparent 23%),radial-gradient(circle at 75% 85%, #F0F8F0 0 26%, transparent 27%);}
-.wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:20px 18px 40px;}
-.screen{display:none;animation:in .35s ease both;}
-.screen.on{display:block;}
-@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.screen{animation:none}}
-.card{background:var(--card);border:2px solid var(--edge);border-radius:var(--r);padding:22px 20px;box-shadow:0 6px 0 rgba(107,155,209,.12);}
-h1{font-size:26px;line-height:1.3;margin:0 0 8px;letter-spacing:-.6px;}
-h2{font-size:20px;margin:0 0 10px;letter-spacing:-.4px;}
-p{margin:0 0 10px;}
-.lead{color:var(--ink2);font-size:14.5px;}
-.tiny{font-size:12.5px;color:var(--ink2);line-height:1.6;}
-.tag{display:inline-block;background:var(--rest);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.6px;padding:5px 13px;border-radius:99px;margin-bottom:12px;}
-.btn{display:block;width:100%;border:0;cursor:pointer;background:var(--rest);color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:99px;box-shadow:0 5px 0 #4B7BA6;transition:transform .12s, box-shadow .12s;}
-.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #4B7BA6;}
-.btn:focus-visible{outline:3px solid var(--emerging);outline-offset:3px;}
-.btn.ghost{background:#fff;color:var(--rest);box-shadow:0 0 0 2px var(--edge) inset;}
-.btn.ghost:active{transform:translateY(2px);}
-.hero{text-align:center;padding:14px 0 4px;}
-.hero svg{width:140px;height:140px;margin-bottom:6px;}
-.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0 4px;}
-.badge{background:#fff;border:2px solid var(--edge);border-radius:99px;padding:6px 13px;font-size:12.5px;font-weight:600;color:var(--rest);}
-.org{display:flex;align-items:center;gap:8px;justify-content:center;font-size:12px;color:var(--ink2);margin-top:18px;}
-.org .dot{width:6px;height:6px;border-radius:50%;background:#FF9A5A;}
-.note{background:var(--emerging-lt);border:2px solid var(--emerging);border-radius:18px;padding:14px 16px;margin:14px 0;}
-.note b{color:#96690C;}
-ul.plain{margin:8px 0 0;padding-left:18px;}
-ul.plain li{margin-bottom:6px;font-size:14px;}
-.progress{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.track{flex:1;height:12px;background:#fff;border:2px solid var(--edge);border-radius:99px;overflow:hidden;}
-.fill{height:100%;width:0;background:linear-gradient(90deg,#8FC9E0,var(--rest));border-radius:99px;transition:width .3s;}
-.count{font-size:13px;font-weight:700;color:var(--rest);min-width:44px;text-align:right;}
-.qnum{font-size:12.5px;font-weight:700;color:#FF9A5A;margin-bottom:4px;}
-.qtext{font-size:19px;font-weight:700;line-height:1.45;letter-spacing:-.4px;margin-bottom:16px;}
-.opts{display:flex;flex-direction:column;gap:9px;}
-.opt{display:flex;align-items:center;gap:11px;width:100%;background:#fff;border:2px solid var(--edge);border-radius:16px;padding:14px 16px;font-family:inherit;font-size:16px;font-weight:600;color:var(--ink);text-align:left;cursor:pointer;transition:border-color .15s,background .15s;}
-.opt .dot{width:20px;height:20px;border-radius:50%;border:2.5px solid var(--edge);flex:none;background:#fff;}
-.opt:hover{border-color:#9DD1E8;}
-.opt.sel{border-color:var(--rest);background:var(--rest-lt);}
-.opt.sel .dot{border-color:var(--rest);background:var(--rest);box-shadow:inset 0 0 0 3px #fff;}
-.opt:focus-visible{outline:3px solid var(--emerging);outline-offset:2px;}
-.nav{display:flex;gap:10px;margin-top:16px;}
-.nav .btn{flex:1;}
-.result-top{text-align:center;padding:6px 0 2px;}
-.result-top svg{width:130px;height:130px;margin-bottom:8px;}
-.progress-bar{display:flex;gap:6px;align-items:center;margin-bottom:14px;}
-.step{flex:1;height:10px;background:#f0f0f0;border-radius:99px;border:1.5px solid var(--edge);transition:background .3s;}
-.step.on{background:var(--rest);border-color:var(--rest);}
-.step.on.em{background:var(--emerging);border-color:var(--emerging);}
-.step.on.sun{background:var(--sunny);border-color:var(--sunny);}
-.step.on.rb{background:var(--rainbow);border-color:var(--rainbow);}
-.progress-label{font-size:12px;font-weight:700;color:var(--ink2);text-align:center;min-width:60px;}
-.band{display:inline-block;font-size:13px;font-weight:700;padding:6px 16px;border-radius:99px;margin-bottom:10px;}
-.band.rest{background:var(--rest-lt);color:#3B5B8A;border:2px solid var(--rest);}
-.band.emerging{background:var(--emerging-lt);color:#996D00;border:2px solid var(--emerging);}
-.band.sunny{background:var(--sunny-lt);color:#C75A1F;border:2px solid var(--sunny);}
-.band.rainbow{background:var(--rainbow-lt);color:#4A7E41;border:2px solid var(--rainbow);}
-.rname{font-size:27px;font-weight:800;letter-spacing:-.8px;margin:2px 0 8px;}
-.rname small{font-size:18px;opacity:.8;}
-.rdesc{font-size:15px;color:var(--ink2);line-height:1.6;}
-.todo{margin-top:16px;}
-.todo h3{font-size:15px;margin:0 0 10px;}
-.todo-item{display:flex;gap:11px;align-items:flex-start;border-radius:14px;padding:12px 14px;margin-bottom:8px;font-size:14.5px;}
-.todo-item.rest{background:var(--rest-lt);}
-.todo-item.emerging{background:var(--emerging-lt);}
-.todo-item.sunny{background:var(--sunny-lt);}
-.todo-item.rainbow{background:var(--rainbow-lt);}
-.todo-item .ic{font-size:16px;line-height:1.4;}
-.help{margin-top:16px;background:#fff;border:2px dashed #FF9A5A;border-radius:18px;padding:16px;}
-.help h3{margin:0 0 4px;font-size:15px;color:#C75A1F;}
-.line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--edge);font-size:14px;}
-.line:last-child{border-bottom:0;}
-.line .nm{font-weight:600;}
-.line .sub{display:block;font-size:11.5px;color:var(--ink2);font-weight:400;}
-.line a{color:#fff;background:var(--rest);text-decoration:none;font-size:13px;font-weight:700;padding:7px 14px;border-radius:99px;white-space:nowrap;}
-.disclaim{margin-top:18px;font-size:12px;color:var(--ink2);line-height:1.7;background:#fff;border:2px solid var(--edge);border-radius:16px;padding:14px 16px;}
-.sos{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(245,249,252,.94);backdrop-filter:blur(6px);border-top:2px solid var(--edge);padding:10px 18px calc(10px + env(safe-area-inset-bottom));}
-.sos a{display:block;max-width:484px;margin:0 auto;text-align:center;background:#FFE0D8;border:2px solid #FF9A5A;color:#C75A1F;text-decoration:none;font-size:13.5px;font-weight:700;padding:11px;border-radius:99px;}
-.sos p{margin:6px 0 0;text-align:center;font-size:12px;color:#999;font-weight:600;}
-body{padding-bottom:100px;}
+:root {
+  --paper: #F5F9FC;
+  --card: #FFFFFF;
+  --ink: #2B3E50;
+  --ink2: #6E7F8B;
+  --rest: #6B9BD1;
+  --rest-lt: #DCE7F3;
+  --emerging: #F4C66B;
+  --emerging-lt: #FEF3E0;
+  --sunny: #FF9A5A;
+  --sunny-lt: #FFE6D5;
+  --rainbow: #8AC585;
+  --rainbow-lt: #E8F5E8;
+  --edge: #D0DEE8;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Pretendard", "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 15% 10%, #E8F4FB 0 28%, transparent 29%), radial-gradient(circle at 90% 25%, #FFF5E8 0 22%, transparent 23%), radial-gradient(circle at 75% 85%, #F0F8F0 0 26%, transparent 27%);
+}
+
+.wrap { position: relative; z-index: 1; max-width: 520px; margin: 0 auto; padding: 20px 18px 40px; }
+.screen { display: none; }
+.screen.on { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.card {
+  background: var(--card);
+  border: 2px solid var(--edge);
+  border-radius: 22px;
+  padding: 22px 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+h1 { font-size: 26px; line-height: 1.3; margin: 0 0 8px; letter-spacing: -0.6px; }
+h2 { font-size: 20px; margin: 0 0 10px; letter-spacing: -0.4px; }
+p { margin: 0 0 10px; }
+
+.lead { color: var(--ink2); font-size: 14.5px; }
+.tiny { font-size: 12.5px; color: var(--ink2); line-height: 1.6; }
+.tag { display: inline-block; background: var(--rest); color: #fff; font-size: 11.5px; font-weight: 700; padding: 5px 13px; border-radius: 99px; margin-bottom: 12px; }
+
+.btn {
+  display: block;
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  background: var(--rest);
+  color: #fff;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 16px;
+  border-radius: 99px;
+  box-shadow: 0 5px 0 #4B7BA6;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #4B7BA6; }
+.btn.ghost { background: #fff; color: var(--rest); box-shadow: 0 0 0 2px var(--edge) inset; }
+.btn.ghost:active { transform: translateY(2px); }
+
+.hero { text-align: center; padding: 14px 0 4px; }
+.hero img { width: 140px; height: 140px; image-rendering: crisp-edges; margin-bottom: 6px; }
+.badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 14px 0 4px; }
+.badge { background: #fff; border: 2px solid var(--edge); border-radius: 99px; padding: 6px 13px; font-size: 12.5px; font-weight: 600; color: var(--rest); }
+.org { display: flex; align-items: center; gap: 8px; justify-content: center; font-size: 12px; color: var(--ink2); margin-top: 18px; }
+.org .dot { width: 6px; height: 6px; border-radius: 50%; background: #FF9A5A; }
+
+.note { background: var(--emerging-lt); border: 2px solid var(--emerging); border-radius: 18px; padding: 14px 16px; margin: 14px 0; }
+.note b { color: #96690C; }
+ul.plain { margin: 8px 0 0; padding-left: 18px; }
+ul.plain li { margin-bottom: 6px; font-size: 14px; }
+
+.progress { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.track { flex: 1; height: 12px; background: #fff; border: 2px solid var(--edge); border-radius: 99px; overflow: hidden; }
+.fill { height: 100%; width: 0; background: linear-gradient(90deg, #8FC9E0, var(--rest)); border-radius: 99px; transition: width 0.3s; }
+.count { font-size: 13px; font-weight: 700; color: var(--rest); min-width: 44px; text-align: right; }
+
+.qnum { font-size: 12.5px; font-weight: 700; color: #FF9A5A; margin-bottom: 4px; }
+.qtext { font-size: 19px; font-weight: 700; line-height: 1.45; letter-spacing: -0.4px; margin-bottom: 16px; }
+.opts { display: flex; flex-direction: column; gap: 9px; }
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  background: #fff;
+  border: 2px solid var(--edge);
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.opt .dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2.5px solid var(--edge);
+  flex: none;
+  background: #fff;
+}
+
+.opt:hover { border-color: #9DD1E8; }
+.opt.sel { border-color: var(--rest); background: var(--rest-lt); }
+.opt.sel .dot { border-color: var(--rest); background: var(--rest); box-shadow: inset 0 0 0 3px #fff; }
+
+.nav { display: flex; gap: 10px; margin-top: 16px; }
+.nav .btn { flex: 1; }
+
+.result-top { text-align: center; padding: 6px 0 2px; }
+.result-top img { width: 130px; height: 130px; image-rendering: crisp-edges; margin-bottom: 8px; }
+
+.progress-bar { display: flex; gap: 6px; align-items: center; margin-bottom: 14px; }
+.step { flex: 1; height: 10px; background: #f0f0f0; border-radius: 99px; border: 1.5px solid var(--edge); transition: background 0.3s; }
+.step.on { background: var(--rest); border-color: var(--rest); }
+.step.on.em { background: var(--emerging); border-color: var(--emerging); }
+.step.on.sun { background: var(--sunny); border-color: var(--sunny); }
+.step.on.rb { background: var(--rainbow); border-color: var(--rainbow); }
+.progress-label { font-size: 12px; font-weight: 700; color: var(--ink2); text-align: center; min-width: 60px; }
+
+.band { display: inline-block; font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 99px; margin-bottom: 10px; }
+.band.rest { background: var(--rest-lt); color: #3B5B8A; border: 2px solid var(--rest); }
+.band.emerging { background: var(--emerging-lt); color: #996D00; border: 2px solid var(--emerging); }
+.band.sunny { background: var(--sunny-lt); color: #C75A1F; border: 2px solid var(--sunny); }
+.band.rainbow { background: var(--rainbow-lt); color: #4A7E41; border: 2px solid var(--rainbow); }
+
+.rname { font-size: 27px; font-weight: 800; letter-spacing: -0.8px; margin: 2px 0 8px; }
+.rname small { font-size: 18px; opacity: 0.8; }
+.rdesc { font-size: 15px; color: var(--ink2); line-height: 1.6; }
+
+.todo { margin-top: 16px; }
+.todo h3 { font-size: 15px; margin: 0 0 10px; }
+.todo-item { display: flex; gap: 11px; align-items: flex-start; border-radius: 14px; padding: 12px 14px; margin-bottom: 8px; font-size: 14.5px; }
+.todo-item.rest { background: var(--rest-lt); }
+.todo-item.emerging { background: var(--emerging-lt); }
+.todo-item.sunny { background: var(--sunny-lt); }
+.todo-item.rainbow { background: var(--rainbow-lt); }
+.todo-item .ic { font-size: 16px; line-height: 1.4; }
+
+.help { margin-top: 16px; background: #fff; border: 2px dashed #FF9A5A; border-radius: 18px; padding: 16px; }
+.help h3 { margin: 0 0 4px; font-size: 15px; color: #C75A1F; }
+.line { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--edge); font-size: 14px; }
+.line:last-child { border-bottom: 0; }
+.line .nm { font-weight: 600; }
+.line .sub { display: block; font-size: 11.5px; color: var(--ink2); font-weight: 400; }
+.line a { color: #fff; background: var(--rest); text-decoration: none; font-size: 13px; font-weight: 700; padding: 7px 14px; border-radius: 99px; white-space: nowrap; }
+
+.disclaim { margin-top: 18px; font-size: 12px; color: var(--ink2); line-height: 1.7; background: #fff; border: 2px solid var(--edge); border-radius: 16px; padding: 14px 16px; }
+
+.sos { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; background: rgba(245, 249, 252, 0.94); backdrop-filter: blur(6px); border-top: 2px solid var(--edge); padding: 10px 18px calc(10px + env(safe-area-inset-bottom)); }
+.sos a { display: block; max-width: 484px; margin: 0 auto; text-align: center; background: #FFE0D8; border: 2px solid #FF9A5A; color: #C75A1F; text-decoration: none; font-size: 13.5px; font-weight: 700; padding: 11px; border-radius: 99px; }
+.sos p { margin: 6px 0 0; text-align: center; font-size: 12px; color: #999; font-weight: 600; }
+
+body { padding-bottom: 100px; }
 </style>
 </head>
 <body>
 <div class="wrap">
 <section class="screen on" id="s-intro">
   <div class="hero">
-    <svg id="dragon-intro" viewBox="0 0 110 110"></svg>
+    <img src="crystal_0.png" alt="수정이" style="filter:brightness(1.05);">
     <span class="tag">성신여대 축제 · 마음 부스</span>
     <h1>수정이랑 마음 체크인</h1>
     <p class="lead">지난 2주 동안 내 마음이 어땠는지<br>10개 문항으로 가볍게 살펴봐요.</p>
@@ -112,16 +204,16 @@ body{padding-bottom:100px;}
     <h2>시작하기 전에</h2>
     <div class="note">
       <b>이건 진단이 아니에요.</b>
-      <p class="tiny" style="margin:6px 0 0;">마음 상태를 스스로 돌아보도록 돕는 체크인이에요. 우울증 같은 진단은 전문가와의 상담을 통해서만 가능해요. 결과는 참고용으로만 봐주세요.</p>
+      <p class="tiny" style="margin:6px 0 0;">마음 상태를 스스로 돌아보도록 돕는 체크인이에요. 우울증 같은 진단은 전문가와의 상담을 통해서만 가능해요.</p>
     </div>
     <ul class="plain">
-      <li>답변은 이 기기에만 잠깐 있다가 사라져요. 서버로 보내지 않아요.</li>
-      <li>정답이 없어요. 지난 2주를 떠올리며 솔직하게 골라주세요.</li>
-      <li>답하기 불편한 문항이 있으면 언제든 그만둬도 괜찮아요.</li>
+      <li>답변은 이 기기에만 잠깐 있다가 사라져요.</li>
+      <li>정답이 없어요. 솔직하게 골라주세요.</li>
+      <li>답하기 불편하면 언제든 그만둬도 괜찮아요.</li>
     </ul>
-    <button class="btn" style="margin-top:18px;" onclick="app.startQuiz()">검사 시작하기</button>
+    <button class="btn" style="margin-top:18px;" id="startBtn">체크인 시작하기</button>
   </div>
-  <div class="org"><span class="dot"></span> 성신여자대학교 성신체인지 사회봉사단 중앙기획단 부스</div>
+  <div class="org"><span class="dot"></span> 성신여자대학교 학생상담센터 협력 부스</div>
 </section>
 
 <section class="screen" id="s-quiz">
@@ -130,14 +222,14 @@ body{padding-bottom:100px;}
     <div class="count" id="count">1 / 10</div>
   </div>
   <div class="card">
-    <div id="mascot-q" style="text-align:center;margin-bottom:10px;">
-      <svg width="80" height="80" viewBox="0 0 110 110"></svg>
+    <div style="text-align:center;margin-bottom:10px;">
+      <img id="mascot-q" src="crystal_0.png" alt="" width="80" style="image-rendering:crisp-edges;opacity:.8;">
     </div>
     <div class="qnum" id="qnum">문항 1</div>
     <div class="qtext" id="qtext"></div>
     <div class="opts" id="opts"></div>
     <div class="nav">
-      <button class="btn ghost" id="prev" onclick="app.prevQ()" style="display:none;">이전</button>
+      <button class="btn ghost" id="prevBtn" style="display:none;">이전</button>
     </div>
   </div>
   <p class="tiny" style="text-align:center;margin-top:14px;">지난 2주 동안 얼마나 자주 그랬는지 골라주세요.</p>
@@ -146,7 +238,7 @@ body{padding-bottom:100px;}
 <section class="screen" id="s-result">
   <div class="card">
     <div class="result-top">
-      <svg id="dragon-result" viewBox="0 0 110 110"></svg>
+      <img id="mascot-r" src="crystal_0.png" alt="">
       <div class="progress-bar">
         <div class="step" id="s1"></div>
         <div class="step" id="s2"></div>
@@ -179,8 +271,8 @@ body{padding-bottom:100px;}
       <a href="tel:15770199">1577-0199</a>
     </div>
   </div>
-  <div class="disclaim">이 체크인은 자기 이해를 돕기 위한 활동이며 의학적 진단이 아닙니다. 결과가 나를 규정하지 않아요. 마음이 계속 무겁거나 일상이 어렵게 느껴진다면 위의 상담 창구나 정신건강의학과 진료를 이용해 주세요.</div>
-  <button class="btn ghost" style="margin-top:16px;" onclick="app.resetQuiz()">처음부터 다시 하기</button>
+  <div class="disclaim">이 체크인은 자기 이해를 돕기 위한 활동이며 의학적 진단이 아닙니다. 결과가 나를 규정하지 않아요.</div>
+  <button class="btn ghost" style="margin-top:16px;" id="resetBtn">처음부터 다시 하기</button>
 </section>
 </div>
 
@@ -190,184 +282,174 @@ body{padding-bottom:100px;}
 </div>
 
 <script>
-// ===== 수정이 그려기 =====
-function drawCrystal(type) {
-  const colors = {
-    0: {fill:'#A9E0EF', stroke:'#1B6B85'},
-    1: {fill:'#FFDF9E', stroke:'#8B7B00'},
-    2: {fill:'#FFC9C9', stroke:'#C75A1F'},
-    3: {fill:'#B7E4BC', stroke:'#5B9455'}
-  };
-  const c = colors[type] || colors[0];
-  return `<ellipse cx="55" cy="99" rx="27" ry="4" fill="#CFE4EC"/>
-    <path d="M84 66 Q101 70 96 84 Q93 94 83 90" fill="none" stroke="${c.stroke}" stroke-width="3" stroke-linecap="round"/>
-    <path d="M35 27 L26 9 L45 21 Z" fill="${c.fill}" stroke="${c.stroke}" stroke-width="2.6" stroke-linejoin="round"/>
-    <path d="M75 27 L84 9 L65 21 Z" fill="${c.fill}" stroke="${c.stroke}" stroke-width="2.6" stroke-linejoin="round"/>
-    <path d="M55 22 C74 22 87 37 87 56 C87 77 72 90 55 90 C38 90 23 77 23 56 C23 37 36 22 55 22 Z" fill="${c.fill}" stroke="${c.stroke}" stroke-width="3"/>
-    <path d="M55 34 C69 34 78 44 78 56 C78 71 67 81 55 81 C43 81 32 71 32 56 C32 44 41 34 55 34 Z" fill="#F5FCFE"/>
-    <circle cx="45" cy="54" r="4.2" fill="#27353F"/><circle cx="65" cy="54" r="4.2" fill="#27353F"/>
-    <circle cx="46.5" cy="52.4" r="1.5" fill="#fff"/><circle cx="66.5" cy="52.4" r="1.5" fill="#fff"/>
-    <ellipse cx="35" cy="63" rx="4.6" ry="3.2" fill="#FF9E9E" opacity=".85"/>
-    <ellipse cx="75" cy="63" rx="4.6" ry="3.2" fill="#FF9E9E" opacity=".85"/>
-    <path d="M48 65 Q55 73 62 65" fill="none" stroke="#27353F" stroke-width="2.6" stroke-linecap="round"/>`;
+const SUPABASE_URL = 'https://yvcnynqqqvljmquwlrjo.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_0EGba1kMl0tQjcWjX2chaA_XwkO2cJu';
+
+let supabase = null;
+let qIdx = 0;
+let answers = [];
+
+const Q = [
+  {t:"아침에 눈을 떴을 때, 하루를 시작할 기운이 없었다"},
+  {t:"평소 좋아하던 일에도 흥미가 잘 생기지 않았다"},
+  {t:"특별한 이유 없이 마음이 가라앉거나 울적했다"},
+  {t:"잠들기 어렵거나, 자고 나도 개운하지 않았다"},
+  {t:"사소한 일에도 예민해지고 짜증이 났다"},
+  {t:"사람들과 함께 있어도 혼자인 것처럼 느껴졌다"},
+  {t:"수업이나 해야 할 일에 집중하기 어려웠다"},
+  {t:"나는 잘하는 게 없다는 생각이 들었다"},
+  {t:"하루 중 마음이 편안해지는 순간이 있었다"},
+  {t:"힘들 때 이야기할 사람이 떠올랐다"}
+];
+const OPT = ["거의 없었다","가끔 그랬다","자주 그랬다","거의 매일 그랬다"];
+
+// Supabase 초기화
+try {
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  console.log('✓ Supabase 연결됨');
+  loadCount();
+} catch(e) {
+  console.log('Supabase 에러:', e);
 }
 
-// ===== 앱 =====
-const app = {
-  supabase: null,
-  qIdx: 0,
-  answers: [],
-  Q: [
-    {t:"아침에 눈을 떴을 때, 하루를 시작할 기운이 없었다"},
-    {t:"평소 좋아하던 일에도 흥미가 잘 생기지 않았다"},
-    {t:"특별한 이유 없이 마음이 가라앉거나 울적했다"},
-    {t:"잠들기 어렵거나, 자고 나도 개운하지 않았다"},
-    {t:"사소한 일에도 예민해지고 짜증이 났다"},
-    {t:"사람들과 함께 있어도 혼자인 것처럼 느껴졌다"},
-    {t:"수업이나 해야 할 일에 집중하기 어려웠다"},
-    {t:"나는 잘하는 게 없다는 생각이 들었다"},
-    {t:"하루 중 마음이 편안해지는 순간이 있었다"},
-    {t:"힘들 때 이야기할 사람이 떠올랐다"}
-  ],
-  OPT: ["거의 없었다","가끔 그랬다","자주 그랬다","거의 매일 그랬다"],
+// 화면 전환
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
 
-  init() {
-    try {
-      this.supabase = window.supabase.createClient('https://yvcnynqqqvljmquwlrjo.supabase.co', 'sb_publishable_0EGba1kMl0tQjcWjX2chaA_XwkO2cJu');
-      console.log('✓ Supabase');
-    } catch(e) {
-      console.log('✗ Supabase error:', e);
-    }
-    
-    document.getElementById('dragon-intro').innerHTML = drawCrystal(0);
-    document.getElementById('dragon-result').innerHTML = drawCrystal(0);
-    document.querySelector('#mascot-q svg').innerHTML = drawCrystal(0);
-    
-    this.loadCount();
-  },
+// 시작
+document.getElementById('startBtn').onclick = function() {
+  qIdx = 0;
+  answers = new Array(Q.length).fill(null);
+  show('s-quiz');
+  renderQ();
+};
 
-  show(screenId) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
-    document.getElementById(screenId).classList.add('on');
-    window.scrollTo({top:0, behavior:'instant'});
-  },
+// 문항 렌더링
+function renderQ() {
+  const q = Q[qIdx];
+  document.getElementById('qnum').textContent = `문항 ${qIdx + 1}`;
+  document.getElementById('qtext').textContent = q.t;
+  document.getElementById('count').textContent = `${qIdx + 1} / ${Q.length}`;
+  document.getElementById('fill').style.width = (qIdx / Q.length * 100) + '%';
+  document.getElementById('prevBtn').style.display = qIdx === 0 ? 'none' : 'block';
 
-  startQuiz() {
-    this.qIdx = 0;
-    this.answers = new Array(this.Q.length).fill(null);
-    this.show('s-quiz');
-    this.renderQ();
-  },
+  // 크리스탈 이미지 변경
+  const crystalIdx = Math.floor(qIdx / 3);
+  document.getElementById('mascot-q').src = `crystal_${Math.min(crystalIdx, 3)}.png`;
 
-  renderQ() {
-    const q = this.Q[this.qIdx];
-    document.getElementById('qnum').textContent = `문항 ${this.qIdx + 1}`;
-    document.getElementById('qtext').textContent = q.t;
-    document.getElementById('count').textContent = `${this.qIdx + 1} / ${this.Q.length}`;
-    document.getElementById('fill').style.width = (this.qIdx / this.Q.length * 100) + '%';
-    document.getElementById('prev').style.display = this.qIdx === 0 ? 'none' : 'block';
+  const opts = document.getElementById('opts');
+  opts.innerHTML = '';
+  OPT.forEach((label, v) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt' + (answers[qIdx] === v ? ' sel' : '');
+    btn.innerHTML = `<span class="dot"></span><span>${label}</span>`;
+    btn.onclick = () => pickAnswer(v);
+    opts.appendChild(btn);
+  });
+}
 
-    const opts = document.getElementById('opts');
-    opts.innerHTML = '';
-    this.OPT.forEach((label, v) => {
-      const btn = document.createElement('button');
-      btn.className = 'opt' + (this.answers[this.qIdx] === v ? ' sel' : '');
-      btn.innerHTML = `<span class="dot"></span><span>${label}</span>`;
-      btn.onclick = () => this.pickAnswer(v);
-      opts.appendChild(btn);
-    });
-  },
-
-  pickAnswer(v) {
-    this.answers[this.qIdx] = v;
-    this.renderQ();
-    setTimeout(() => {
-      if (this.qIdx < this.Q.length - 1) {
-        this.qIdx++;
-        this.renderQ();
-      } else {
-        this.showResult();
-      }
-    }, 220);
-  },
-
-  prevQ() {
-    if (this.qIdx > 0) {
-      this.qIdx--;
-      this.renderQ();
-    }
-  },
-
-  showResult() {
-    let score = 0;
-    this.answers.forEach(v => {
-      if (v === null) v = 0;
-      score += v;
-    });
-    
-    const normScore = Math.round(score / 3);
-    
-    let result;
-    if (normScore <= 2) {
-      result = {img:0, cls:'rest', band:'💧 녹아내리는 수정이', name:'마음이 <small>촉촉하게 쉬어가고 있어요</small>', desc:'지난 2주 동안 마음이 충분히 쉼표를 갖고 있었네요.', todo:[['🌧️','오늘 하루의 좋았던 한 가지를 생각하기'], ['💧','이 느낌을 사진이나 일기로 남겨두기'], ['☔','지금처럼 쉬어도 된다는 걸 자신에게 말해주기']]};
-    } else if (normScore <= 5) {
-      result = {img:1, cls:'emerging', band:'🌤️ 구름 걷히는 수정이', name:'마음이 <small>회복 중이에요</small>', desc:'지난 2주가 조금 버거웠나 봐요. 하지만 이미 회복하려는 마음이 보여요.', todo:[['🌦️','이번 주 저녁 하나는 특별히 비워두기'], ['🧘','하루 10분, 좋아하는 활동에만 시간 쓰기'], ['📞','신뢰하는 사람에게 "요즘 어때?" 물어보기']]};
-    } else if (normScore <= 8) {
-      result = {img:2, cls:'sunny', band:'☀️ 맑은 날의 수정이', name:'마음이 <small>생생하게 움직이고 있어요</small>', desc:'에너지가 활발한 지난 2주셨네요. 이 긍정적인 리듬을 유지해 보세요.', todo:[['☀️','좋은 컨디션의 비결 하나를 기억해두기'], ['✨','이 에너지로 할 수 있는 작은 목표 세우기'], ['🌟','요즘 자신의 노력을 자신에게 칭찬해주기']]};
+// 답변 선택
+function pickAnswer(v) {
+  answers[qIdx] = v;
+  renderQ();
+  setTimeout(() => {
+    if (qIdx < Q.length - 1) {
+      qIdx++;
+      renderQ();
     } else {
-      result = {img:3, cls:'rainbow', band:'🌈 무지개 수정이', name:'마음이 <small>최고조에 도달했어요</small>', desc:'지난 2주가 정말 좋은 시간이었나 봐요. 긍정적인 에너지가 넘치고 있어요.', todo:[['🌈','지금의 이 마음을 소중하게 간직해두기'], ['💫','이 시간을 함께한 사람들에게 감사 전하기'], ['⭐','앞으로도 이런 날들이 많아지길 바라며 일기 쓰기']]};
+      showResult();
     }
+  }, 200);
+}
 
-    document.getElementById('dragon-result').innerHTML = drawCrystal(result.img);
-    
-    const stepNum = normScore <= 2 ? 1 : normScore <= 5 ? 2 : normScore <= 8 ? 3 : 4;
-    const stepClass = {1:'', 2:'em', 3:'sun', 4:'rb'}[stepNum];
-    for (let s = 1; s <= 4; s++) {
-      const step = document.getElementById('s' + s);
-      step.className = 'step' + (s <= stepNum ? ' on ' + stepClass : '');
-    }
-    document.getElementById('progress-text').textContent = `${stepNum} / 4`;
-    
-    const b = document.getElementById('band');
-    b.className = 'band ' + result.cls;
-    b.textContent = result.band;
-    document.getElementById('rname').innerHTML = result.name;
-    document.getElementById('rdesc').textContent = result.desc;
-    document.getElementById('todos').innerHTML = result.todo.map(t => `<div class="todo-item ${result.cls}"><span class="ic">${t[0]}</span><span>${t[1]}</span></div>`).join('');
-
-    this.save(score, normScore, result.cls);
-    this.show('s-result');
-  },
-
-  async save(score, normScore, category) {
-    if (!this.supabase) return;
-    try {
-      await this.supabase.from('responses').insert([{total_score:score, normalized_score:normScore, category:category, answers:this.answers, created_at:new Date().toISOString()}]);
-      this.loadCount();
-    } catch (e) {
-      console.log('Save error:', e);
-    }
-  },
-
-  async loadCount() {
-    if (!this.supabase) return;
-    try {
-      const { count } = await this.supabase.from('responses').select('*', { count: 'exact', head: true });
-      document.getElementById('participant-count').textContent = count || 0;
-    } catch (e) {
-      console.log('Count error:', e);
-    }
-  },
-
-  resetQuiz() {
-    this.qIdx = 0;
-    this.answers = [];
-    this.show('s-intro');
+// 이전 버튼
+document.getElementById('prevBtn').onclick = function() {
+  if (qIdx > 0) {
+    qIdx--;
+    renderQ();
   }
 };
 
-// 시작
-window.addEventListener('load', () => app.init());
+// 결과 화면
+function showResult() {
+  let score = 0;
+  answers.forEach(v => score += (v === null ? 0 : v));
+  
+  const normScore = Math.round(score / 3);
+  
+  let result;
+  if (normScore <= 2) {
+    result = {img:'crystal_0.png', cls:'rest', band:'💧 녹아내리는 수정이', name:'마음이 <small>촉촉하게 쉬어가고 있어요</small>', desc:'지난 2주 동안 마음이 충분히 쉼표를 갖고 있었네요.', todo:[['🌧️','오늘 하루의 좋았던 한 가지를 생각하기'], ['💧','이 느낌을 사진이나 일기로 남겨두기'], ['☔','지금처럼 쉬어도 된다는 걸 자신에게 말해주기']]};
+  } else if (normScore <= 5) {
+    result = {img:'crystal_1.png', cls:'emerging', band:'🌤️ 구름 걷히는 수정이', name:'마음이 <small>회복 중이에요</small>', desc:'지난 2주가 조금 버거웠나 봐요. 하지만 이미 회복하려는 마음이 보여요.', todo:[['🌦️','이번 주 저녁 하나는 특별히 비워두기'], ['🧘','하루 10분, 좋아하는 활동에만 시간 쓰기'], ['📞','신뢰하는 사람에게 "요즘 어때?" 물어보기']]};
+  } else if (normScore <= 8) {
+    result = {img:'crystal_2.png', cls:'sunny', band:'☀️ 맑은 날의 수정이', name:'마음이 <small>생생하게 움직이고 있어요</small>', desc:'에너지가 활발한 지난 2주셨네요. 이 긍정적인 리듬을 유지해 보세요.', todo:[['☀️','좋은 컨디션의 비결 하나를 기억해두기'], ['✨','이 에너지로 할 수 있는 작은 목표 세우기'], ['🌟','요즘 자신의 노력을 자신에게 칭찬해주기']]};
+  } else {
+    result = {img:'crystal_3.png', cls:'rainbow', band:'🌈 무지개 수정이', name:'마음이 <small>최고조에 도달했어요</small>', desc:'지난 2주가 정말 좋은 시간이었나 봐요. 긍정적인 에너지가 넘치고 있어요.', todo:[['🌈','지금의 이 마음을 소중하게 간직해두기'], ['💫','이 시간을 함께한 사람들에게 감사 전하기'], ['⭐','앞으로도 이런 날들이 많아지길 바라며 일기 쓰기']]};
+  }
+
+  document.getElementById('mascot-r').src = result.img;
+  
+  const stepNum = normScore <= 2 ? 1 : normScore <= 5 ? 2 : normScore <= 8 ? 3 : 4;
+  const stepClass = {1:'', 2:'em', 3:'sun', 4:'rb'}[stepNum];
+  for (let s = 1; s <= 4; s++) {
+    const step = document.getElementById('s' + s);
+    step.className = 'step' + (s <= stepNum ? ' on ' + stepClass : '');
+  }
+  document.getElementById('progress-text').textContent = `${stepNum} / 4`;
+  
+  const b = document.getElementById('band');
+  b.className = 'band ' + result.cls;
+  b.textContent = result.band;
+  document.getElementById('rname').innerHTML = result.name;
+  document.getElementById('rdesc').textContent = result.desc;
+  document.getElementById('todos').innerHTML = result.todo.map(t => `<div class="todo-item ${result.cls}"><span class="ic">${t[0]}</span><span>${t[1]}</span></div>`).join('');
+
+  saveData(score, normScore, result.cls);
+  show('s-result');
+}
+
+// Supabase 저장
+async function saveData(score, normScore, category) {
+  if (!supabase) return;
+  try {
+    const { error } = await supabase.from('responses').insert([{
+      total_score: score,
+      normalized_score: normScore,
+      category: category,
+      answers: answers,
+      created_at: new Date().toISOString()
+    }]);
+    if (error) console.log('저장 에러:', error);
+    else {
+      console.log('✓ 데이터 저장됨');
+      loadCount();
+    }
+  } catch (e) {
+    console.log('저장 실패:', e);
+  }
+}
+
+// 참여자 수 조회
+async function loadCount() {
+  if (!supabase) return;
+  try {
+    const { count, error } = await supabase.from('responses').select('*', { count: 'exact', head: true });
+    if (!error) document.getElementById('participant-count').textContent = count || 0;
+  } catch (e) {
+    console.log('카운트 에러:', e);
+  }
+}
+
+// 리셋
+document.getElementById('resetBtn').onclick = function() {
+  qIdx = 0;
+  answers = [];
+  show('s-intro');
+};
 </script>
 </body>
 </html>
