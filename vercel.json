@@ -1,0 +1,14 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "routes": [
+    {
+      "src": "/crystal_.*\\.png",
+      "dest": "/crystal_$1.png"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/수정이_마음체크인.html"
+    }
+  ]
+}
