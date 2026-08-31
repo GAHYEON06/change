@@ -42,178 +42,88 @@ body::before{
     radial-gradient(circle at 75% 85%, #F0F8F0 0 26%, transparent 27%);
 }
 .wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:20px 18px 40px;}
-
-/* ---------- 공통 ---------- */
 .screen{display:none;animation:in .35s ease both;}
 .screen.on{display:block;}
 @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.screen{animation:none}}
-
-.card{
-  background:var(--card);
-  border:2px solid var(--edge);
-  border-radius:var(--r);
-  padding:22px 20px;
-  box-shadow:0 6px 0 rgba(107,155,209,.12);
-}
+.card{background:var(--card);border:2px solid var(--edge);border-radius:var(--r);padding:22px 20px;box-shadow:0 6px 0 rgba(107,155,209,.12);}
 h1{font-size:26px;line-height:1.3;margin:0 0 8px;letter-spacing:-.6px;}
 h2{font-size:20px;margin:0 0 10px;letter-spacing:-.4px;}
 p{margin:0 0 10px;}
 .lead{color:var(--ink2);font-size:14.5px;}
 .tiny{font-size:12.5px;color:var(--ink2);line-height:1.6;}
-
-.tag{
-  display:inline-block;background:var(--rest);color:#fff;
-  font-size:11.5px;font-weight:700;letter-spacing:.6px;
-  padding:5px 13px;border-radius:99px;margin-bottom:12px;
-}
-
-.btn{
-  display:block;width:100%;border:0;cursor:pointer;
-  background:var(--rest);color:#fff;
-  font-family:inherit;font-size:17px;font-weight:700;
-  padding:16px;border-radius:99px;
-  box-shadow:0 5px 0 #4B7BA6;
-  transition:transform .12s, box-shadow .12s;
-}
+.tag{display:inline-block;background:var(--rest);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.6px;padding:5px 13px;border-radius:99px;margin-bottom:12px;}
+.btn{display:block;width:100%;border:0;cursor:pointer;background:var(--rest);color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:99px;box-shadow:0 5px 0 #4B7BA6;transition:transform .12s, box-shadow .12s;}
 .btn:active{transform:translateY(4px);box-shadow:0 1px 0 #4B7BA6;}
 .btn:focus-visible{outline:3px solid var(--emerging);outline-offset:3px;}
 .btn.ghost{background:#fff;color:var(--rest);box-shadow:0 0 0 2px var(--edge) inset;}
 .btn.ghost:active{transform:translateY(2px);}
-
-/* ---------- 표지 ---------- */
 .hero{text-align:center;padding:14px 0 4px;}
 .hero img{width:140px;height:auto;margin-bottom:6px;image-rendering:crisp-edges;}
 .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0 4px;}
-.badge{
-  background:#fff;border:2px solid var(--edge);border-radius:99px;
-  padding:6px 13px;font-size:12.5px;font-weight:600;color:var(--rest);
-}
-.org{
-  display:flex;align-items:center;gap:8px;justify-content:center;
-  font-size:12px;color:var(--ink2);margin-top:18px;
-}
+.badge{background:#fff;border:2px solid var(--edge);border-radius:99px;padding:6px 13px;font-size:12.5px;font-weight:600;color:var(--rest);}
+.org{display:flex;align-items:center;gap:8px;justify-content:center;font-size:12px;color:var(--ink2);margin-top:18px;}
 .org .dot{width:6px;height:6px;border-radius:50%;background:#FF9A5A;}
-
-/* ---------- 안내 ---------- */
-.note{
-  background:var(--emerging-lt);border:2px solid var(--emerging);
-  border-radius:18px;padding:14px 16px;margin:14px 0;
-}
+.note{background:var(--emerging-lt);border:2px solid var(--emerging);border-radius:18px;padding:14px 16px;margin:14px 0;}
 .note b{color:#96690C;}
 ul.plain{margin:8px 0 0;padding-left:18px;}
 ul.plain li{margin-bottom:6px;font-size:14px;}
-
-/* ---------- 문항 ---------- */
 .progress{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
 .track{flex:1;height:12px;background:#fff;border:2px solid var(--edge);border-radius:99px;overflow:hidden;}
 .fill{height:100%;width:0;background:linear-gradient(90deg,#8FC9E0,var(--rest));border-radius:99px;transition:width .3s;}
 .count{font-size:13px;font-weight:700;color:var(--rest);min-width:44px;text-align:right;}
-
 .qnum{font-size:12.5px;font-weight:700;color:#FF9A5A;margin-bottom:4px;}
 .qtext{font-size:19px;font-weight:700;line-height:1.45;letter-spacing:-.4px;margin-bottom:16px;}
 .opts{display:flex;flex-direction:column;gap:9px;}
-.opt{
-  display:flex;align-items:center;gap:11px;width:100%;
-  background:#fff;border:2px solid var(--edge);border-radius:16px;
-  padding:14px 16px;font-family:inherit;font-size:16px;font-weight:600;
-  color:var(--ink);text-align:left;cursor:pointer;
-  transition:border-color .15s,background .15s;
-}
-.opt .dot{
-  width:20px;height:20px;border-radius:50%;
-  border:2.5px solid var(--edge);flex:none;background:#fff;
-}
+.opt{display:flex;align-items:center;gap:11px;width:100%;background:#fff;border:2px solid var(--edge);border-radius:16px;padding:14px 16px;font-family:inherit;font-size:16px;font-weight:600;color:var(--ink);text-align:left;cursor:pointer;transition:border-color .15s,background .15s;}
+.opt .dot{width:20px;height:20px;border-radius:50%;border:2.5px solid var(--edge);flex:none;background:#fff;}
 .opt:hover{border-color:#9DD1E8;}
 .opt.sel{border-color:var(--rest);background:var(--rest-lt);}
 .opt.sel .dot{border-color:var(--rest);background:var(--rest);box-shadow:inset 0 0 0 3px #fff;}
 .opt:focus-visible{outline:3px solid var(--emerging);outline-offset:2px;}
 .nav{display:flex;gap:10px;margin-top:16px;}
 .nav .btn{flex:1;}
-
-/* ---------- 결과 ---------- */
 .result-top{text-align:center;padding:6px 0 2px;}
 .result-top img{width:130px;height:auto;margin-bottom:8px;image-rendering:crisp-edges;}
-.band{
-  display:inline-block;font-size:13px;font-weight:700;
-  padding:6px 16px;border-radius:99px;margin-bottom:10px;
-}
-.band.rest{background:var(--rest-lt);color:#3B5B8A;border:2px solid var(--rest);}
-.band.emerging{background:var(--emerging-lt);color:#996D00;border:2px solid var(--emerging);}
-.band.sunny{background:var(--sunny-lt);color:#C75A1F;border:2px solid var(--sunny);}
-.band.rainbow{background:var(--rainbow-lt);color:#4A7E41;border:2px solid var(--rainbow);}
-
-.progress-bar{
-  display:flex;gap:6px;align-items:center;margin-bottom:14px;
-}
-.step{
-  flex:1;height:10px;background:#f0f0f0;border-radius:99px;
-  border:1.5px solid var(--edge);transition:background .3s;
-}
+.progress-bar{display:flex;gap:6px;align-items:center;margin-bottom:14px;}
+.step{flex:1;height:10px;background:#f0f0f0;border-radius:99px;border:1.5px solid var(--edge);transition:background .3s;}
 .step.on{background:var(--rest);border-color:var(--rest);}
 .step.on.em{background:var(--emerging);border-color:var(--emerging);}
 .step.on.sun{background:var(--sunny);border-color:var(--sunny);}
 .step.on.rb{background:var(--rainbow);border-color:var(--rainbow);}
 .progress-label{font-size:12px;font-weight:700;color:var(--ink2);text-align:center;min-width:60px;}
-
+.band{display:inline-block;font-size:13px;font-weight:700;padding:6px 16px;border-radius:99px;margin-bottom:10px;}
+.band.rest{background:var(--rest-lt);color:#3B5B8A;border:2px solid var(--rest);}
+.band.emerging{background:var(--emerging-lt);color:#996D00;border:2px solid var(--emerging);}
+.band.sunny{background:var(--sunny-lt);color:#C75A1F;border:2px solid var(--sunny);}
+.band.rainbow{background:var(--rainbow-lt);color:#4A7E41;border:2px solid var(--rainbow);}
 .rname{font-size:27px;font-weight:800;letter-spacing:-.8px;margin:2px 0 8px;}
 .rname small{font-size:18px;opacity:.8;}
 .rdesc{font-size:15px;color:var(--ink2);line-height:1.6;}
-
 .todo{margin-top:16px;}
 .todo h3{font-size:15px;margin:0 0 10px;}
-.todo-item{
-  display:flex;gap:11px;align-items:flex-start;
-  border-radius:14px;padding:12px 14px;margin-bottom:8px;
-  font-size:14.5px;
-}
+.todo-item{display:flex;gap:11px;align-items:flex-start;border-radius:14px;padding:12px 14px;margin-bottom:8px;font-size:14.5px;}
 .todo-item.rest{background:var(--rest-lt);}
 .todo-item.emerging{background:var(--emerging-lt);}
 .todo-item.sunny{background:var(--sunny-lt);}
 .todo-item.rainbow{background:var(--rainbow-lt);}
 .todo-item .ic{font-size:16px;line-height:1.4;}
-
-.help{
-  margin-top:16px;background:#fff;border:2px dashed #FF9A5A;
-  border-radius:18px;padding:16px;
-}
+.help{margin-top:16px;background:#fff;border:2px dashed #FF9A5A;border-radius:18px;padding:16px;}
 .help h3{margin:0 0 4px;font-size:15px;color:#C75A1F;}
-.line{
-  display:flex;justify-content:space-between;align-items:center;gap:10px;
-  padding:11px 0;border-bottom:1px solid var(--edge);font-size:14px;
-}
+.line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--edge);font-size:14px;}
 .line:last-child{border-bottom:0;}
 .line .nm{font-weight:600;}
 .line .sub{display:block;font-size:11.5px;color:var(--ink2);font-weight:400;}
-.line a{
-  color:#fff;background:var(--rest);text-decoration:none;
-  font-size:13px;font-weight:700;padding:7px 14px;border-radius:99px;white-space:nowrap;
-}
-
-.disclaim{
-  margin-top:18px;font-size:12px;color:var(--ink2);line-height:1.7;
-  background:#fff;border:2px solid var(--edge);border-radius:16px;padding:14px 16px;
-}
-
-/* 하단 고정 도움 버튼 */
-.sos{
-  position:fixed;left:0;right:0;bottom:0;z-index:5;
-  background:rgba(245,249,252,.94);backdrop-filter:blur(6px);
-  border-top:2px solid var(--edge);padding:10px 18px calc(10px + env(safe-area-inset-bottom));
-}
-.sos a{
-  display:block;max-width:484px;margin:0 auto;text-align:center;
-  background:#FFE0D8;border:2px solid #FF9A5A;color:#C75A1F;
-  text-decoration:none;font-size:13.5px;font-weight:700;
-  padding:11px;border-radius:99px;
-}
-body{padding-bottom:78px;}
+.line a{color:#fff;background:var(--rest);text-decoration:none;font-size:13px;font-weight:700;padding:7px 14px;border-radius:99px;white-space:nowrap;}
+.disclaim{margin-top:18px;font-size:12px;color:var(--ink2);line-height:1.7;background:#fff;border:2px solid var(--edge);border-radius:16px;padding:14px 16px;}
+.sos{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(245,249,252,.94);backdrop-filter:blur(6px);border-top:2px solid var(--edge);padding:10px 18px calc(10px + env(safe-area-inset-bottom));}
+.sos a{display:block;max-width:484px;margin:0 auto;text-align:center;background:#FFE0D8;border:2px solid #FF9A5A;color:#C75A1F;text-decoration:none;font-size:13.5px;font-weight:700;padding:11px;border-radius:99px;}
+.sos p{margin:6px 0 0;text-align:center;font-size:12px;color:#999;font-weight:600;}
+body{padding-bottom:100px;}
 </style>
 </head>
 <body>
 <div class="wrap">
-
-<!-- ============ 1. 표지 ============ -->
 <section class="screen on" id="s-intro">
   <div class="hero">
     <img src="crystal_0.png" alt="수정이" style="filter:brightness(1.05);">
@@ -226,34 +136,27 @@ body{padding-bottom:78px;}
       <span class="badge">기록 남지 않음</span>
     </div>
   </div>
-
   <div class="card" style="margin-top:18px;">
     <h2>시작하기 전에</h2>
     <div class="note">
       <b>이건 진단이 아니에요.</b>
-      <p class="tiny" style="margin:6px 0 0;">
-        마음 상태를 스스로 돌아보도록 돕는 체크인이에요. 우울증 같은 진단은
-        전문가와의 상담을 통해서만 가능해요. 결과는 참고용으로만 봐주세요.
-      </p>
+      <p class="tiny" style="margin:6px 0 0;">마음 상태를 스스로 돌아보도록 돕는 체크인이에요. 우울증 같은 진단은 전문가와의 상담을 통해서만 가능해요. 결과는 참고용으로만 봐주세요.</p>
     </div>
     <ul class="plain">
       <li>답변은 이 기기에만 잠깐 있다가 사라져요. 서버로 보내지 않아요.</li>
       <li>정답이 없어요. 지난 2주를 떠올리며 솔직하게 골라주세요.</li>
       <li>답하기 불편한 문항이 있으면 언제든 그만둬도 괜찮아요.</li>
     </ul>
-    <button class="btn" style="margin-top:18px;" onclick="start()">체크인 시작하기</button>
+    <button class="btn" style="margin-top:18px;" onclick="startQuiz()">체크인 시작하기</button>
   </div>
-
-  <div class="org"><span class="dot"></span> 성신여자대학교 학생상담센터 협력 부스</div>
+  <div class="org"><span class="dot"></span> 성신여자대학교 성신체인지 사회봉사단 중앙기획단 부스</div>
 </section>
 
-<!-- ============ 2. 문항 ============ -->
 <section class="screen" id="s-quiz">
   <div class="progress">
     <div class="track"><div class="fill" id="fill"></div></div>
     <div class="count" id="count">1 / 10</div>
   </div>
-
   <div class="card">
     <div id="mascot-q" style="text-align:center;margin-bottom:10px;">
       <img src="crystal_0.png" alt="" width="80" style="image-rendering:crisp-edges;opacity:.8;">
@@ -262,13 +165,12 @@ body{padding-bottom:78px;}
     <div class="qtext" id="qtext"></div>
     <div class="opts" id="opts"></div>
     <div class="nav">
-      <button class="btn ghost" id="prev" onclick="prev()">이전</button>
+      <button class="btn ghost" id="prev" onclick="prevQ()">이전</button>
     </div>
   </div>
   <p class="tiny" style="text-align:center;margin-top:14px;">지난 2주 동안 얼마나 자주 그랬는지 골라주세요.</p>
 </section>
 
-<!-- ============ 3. 결과 ============ -->
 <section class="screen" id="s-result">
   <div class="card">
     <div class="result-top">
@@ -284,73 +186,50 @@ body{padding-bottom:78px;}
       <div class="rname" id="rname"></div>
       <p class="rdesc" id="rdesc"></p>
     </div>
-
     <div class="todo">
       <h3>오늘 해볼 수 있는 것</h3>
       <div id="todos"></div>
     </div>
   </div>
-
   <div class="help">
     <h3>이야기할 곳이 필요하면</h3>
     <p class="tiny" style="margin:0 0 6px;">결과와 상관없이, 누구나 언제든 이용할 수 있어요.</p>
     <div class="line">
-      <span class="nm">성신여대 학생상담센터
-        <span class="sub">재학생 무료 · 예약 상담</span></span>
+      <span class="nm">성신여대 학생상담센터<span class="sub">재학생 무료 · 예약 상담</span></span>
       <a href="tel:0220634919">전화</a>
     </div>
     <div class="line">
-      <span class="nm">청소년상담 1388
-        <span class="sub">만 9~24세 · 24시간 · 전화/채팅</span></span>
+      <span class="nm">청소년상담 1388<span class="sub">만 9~24세 · 24시간 · 전화/채팅</span></span>
       <a href="tel:1388">1388</a>
     </div>
     <div class="line">
-      <span class="nm">정신건강 위기상담
-        <span class="sub">24시간 · 누구나</span></span>
+      <span class="nm">정신건강 위기상담<span class="sub">24시간 · 누구나</span></span>
       <a href="tel:15770199">1577-0199</a>
     </div>
   </div>
-
-  <div class="disclaim">
-    이 체크인은 자기 이해를 돕기 위한 활동이며 의학적 진단이 아닙니다.
-    결과가 나를 규정하지 않아요. 마음이 계속 무겁거나 일상이 어렵게 느껴진다면
-    위의 상담 창구나 정신건강의학과 진료를 이용해 주세요.
-    더 자세한 자가점검은 청소년1388 심리검사 페이지에서도 받아볼 수 있어요.
-  </div>
-
-  <button class="btn ghost" style="margin-top:16px;" onclick="reset()">처음부터 다시 하기</button>
+  <div class="disclaim">이 체크인은 자기 이해를 돕기 위한 활동이며 의학적 진단이 아닙니다. 결과가 나를 규정하지 않아요. 마음이 계속 무겁거나 일상이 어렵게 느껴진다면 위의 상담 창구나 정신건강의학과 진료를 이용해 주세요.</div>
+  <button class="btn ghost" style="margin-top:16px;" onclick="resetQuiz()">처음부터 다시 하기</button>
 </section>
-
 </div>
 
 <div class="sos">
   <a href="tel:109">지금 많이 힘들다면 · 자살예방상담 109 (24시간)</a>
-  <p style="text-align:center;font-size:12px;color:#999;margin:6px 0 0;font-weight:600;">
-    지난 축제에 <span id="participant-count">0</span>명이 참여했어요 💚
-  </p>
+  <p>지난 축제에 <span id="participant-count">0</span>명이 참여했어요 💚</p>
 </div>
 
 <script>
-// ========== Supabase 초기화 ==========
+let supabase = null;
 const SUPABASE_URL = 'https://yvcnynqqqvljmquwlrjo.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_0EGba1kMl0tQjcWjX2chaA_XwkO2cJu';
-const { createClient } = window.supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// 페이지 로드 시 참여자 수 조회
-async function loadParticipantCount(){
-  try {
-    const { count } = await supabase
-      .from('responses')
-      .select('*', { count: 'exact', head: true });
-    document.getElementById('participant-count').textContent = count || 0;
-  } catch(e) {
-    console.log('Count check failed:', e);
-  }
+try {
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  console.log('✓ Supabase OK');
+} catch(e) {
+  console.log('✗ Supabase error:', e);
 }
-loadParticipantCount();
 
-var Q = [
+const Q = [
   {t:"아침에 눈을 떴을 때, 하루를 시작할 기운이 없었다"},
   {t:"평소 좋아하던 일에도 흥미가 잘 생기지 않았다"},
   {t:"특별한 이유 없이 마음이 가라앉거나 울적했다"},
@@ -362,160 +241,143 @@ var Q = [
   {t:"하루 중 마음이 편안해지는 순간이 있었다"},
   {t:"힘들 때 이야기할 사람이 떠올랐다"}
 ];
-var OPT = ["거의 없었다","가끔 그랬다","자주 그랬다","거의 매일 그랬다"];
+const OPT = ["거의 없었다","가끔 그랬다","자주 그랬다","거의 매일 그랬다"];
 
-var i = 0, ans = new Array(Q.length).fill(null);
+let qIdx = 0, answers = [];
 
-function show(id){
-  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
-  document.getElementById(id).classList.add('on');
-  window.scrollTo({top:0,behavior:'instant'});
+function show(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+  document.getElementById(screenId).classList.add('on');
+  window.scrollTo({top:0, behavior:'instant'});
 }
-function start(){ i=0; ans.fill(null); show('s-quiz'); render(); }
 
-function render(){
-  var q = Q[i];
-  document.getElementById('qnum').textContent = "문항 " + (i+1);
+function startQuiz() {
+  qIdx = 0;
+  answers = new Array(Q.length).fill(null);
+  show('s-quiz');
+  renderQ();
+}
+
+function renderQ() {
+  const q = Q[qIdx];
+  document.getElementById('qnum').textContent = `문항 ${qIdx + 1}`;
   document.getElementById('qtext').textContent = q.t;
-  document.getElementById('count').textContent = (i+1) + " / " + Q.length;
-  document.getElementById('fill').style.width = ((i)/Q.length*100) + "%";
-  document.getElementById('prev').style.display = i===0 ? 'none' : 'block';
+  document.getElementById('count').textContent = `${qIdx + 1} / ${Q.length}`;
+  document.getElementById('fill').style.width = (qIdx / Q.length * 100) + '%';
+  document.getElementById('prev').style.display = qIdx === 0 ? 'none' : 'block';
 
-  var box = document.getElementById('opts');
-  box.innerHTML = '';
-  OPT.forEach(function(label, v){
-    var b = document.createElement('button');
-    b.className = 'opt' + (ans[i]===v ? ' sel' : '');
-    b.innerHTML = '<span class="dot"></span><span>'+label+'</span>';
-    b.onclick = function(){ pick(v); };
-    box.appendChild(b);
+  const opts = document.getElementById('opts');
+  opts.innerHTML = '';
+  OPT.forEach((label, v) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt' + (answers[qIdx] === v ? ' sel' : '');
+    btn.innerHTML = `<span class="dot"></span><span>${label}</span>`;
+    btn.onclick = () => pickAnswer(v);
+    opts.appendChild(btn);
   });
 }
-function pick(v){
-  ans[i] = v;
-  render();
-  setTimeout(function(){
-    if(i < Q.length-1){ i++; render(); } else { finish(); }
+
+function pickAnswer(v) {
+  answers[qIdx] = v;
+  renderQ();
+  setTimeout(() => {
+    if (qIdx < Q.length - 1) {
+      qIdx++;
+      renderQ();
+    } else {
+      showResult();
+    }
   }, 220);
 }
-function prev(){ if(i>0){ i--; render(); } }
 
-/* ---------- 결과 ---------- */
-function finish(){
-  var score = 0;
-  ans.forEach(function(v, n){
-    if(v===null) v = 0;
+function prevQ() {
+  if (qIdx > 0) {
+    qIdx--;
+    renderQ();
+  }
+}
+
+function showResult() {
+  let score = 0;
+  answers.forEach(v => {
+    if (v === null) v = 0;
     score += v;
   });
   
-  // 0-30 점을 0-10 으로 정규화 (낮을수록 좋음)
-  var norm_score = Math.round(score / 3);
+  const normScore = Math.round(score / 3);
   
-  var r;
-  if(norm_score <= 2){
-    r = {
-      img:'crystal_0.png',
-      cls:'rest',
-      band:'💧 녹아내리는 수정이',
-      name:'마음이 <small>촉촉하게 쉬어가고 있어요</small>',
-      desc:'지난 2주 동안 마음이 충분히 쉼표를 갖고 있었네요. 지금의 이 소중한 휴식을 기억해 두세요. 다시 힘들 때 돌아올 자리가 돼요.',
-      todo:[
-        ['🌧️','오늘 하루의 좋았던 한 가지를 생각하기'],
-        ['💧','이 느낌을 사진이나 일기로 남겨두기'],
-        ['☔','지금처럼 쉬어도 된다는 걸 자신에게 말해주기']
-      ]
-    };
-  } else if(norm_score <= 5){
-    r = {
-      img:'crystal_1.png',
-      cls:'emerging',
-      band:'🌤️ 구름 걷히는 수정이',
-      name:'마음이 <small>회복 중이에요</small>',
-      desc:'지난 2주가 조금 버거웠나 봐요. 하지만 이미 회복하려는 마음이 보여요. 이번 주에 조금씩 비워낸 자리에 햇살이 들어올 거예요.',
-      todo:[
-        ['🌦️','이번 주 저녁 하나는 특별히 비워두기'],
-        ['🧘','하루 10분, 좋아하는 활동에만 시간 쓰기'],
-        ['📞','신뢰하는 사람에게 "요즘 어때?" 물어보기']
-      ]
-    };
-  } else if(norm_score <= 8){
-    r = {
-      img:'crystal_2.png',
-      cls:'sunny',
-      band:'☀️ 맑은 날의 수정이',
-      name:'마음이 <small>생생하게 움직이고 있어요</small>',
-      desc:'에너지가 활발한 지난 2주셨네요. 이 긍정적인 리듬이 계속 이어지도록 자신을 돌봐 주세요. 힘든 날도 오겠지만 지금의 경험이 큰 자산이 돼요.',
-      todo:[
-        ['☀️','좋은 컨디션의 비결 하나를 기억해두기'],
-        ['✨','이 에너지로 할 수 있는 작은 목표 세우기'],
-        ['🌟','요즘 자신의 노력을 자신에게 칭찬해주기']
-      ]
-    };
+  let result;
+  if (normScore <= 2) {
+    result = {img:'crystal_0.png', cls:'rest', band:'💧 녹아내리는 수정이', name:'마음이 <small>촉촉하게 쉬어가고 있어요</small>', desc:'지난 2주 동안 마음이 충분히 쉼표를 갖고 있었네요. 지금의 이 소중한 휴식을 기억해 두세요.', todo:[['🌧️','오늘 하루의 좋았던 한 가지를 생각하기'], ['💧','이 느낌을 사진이나 일기로 남겨두기'], ['☔','지금처럼 쉬어도 된다는 걸 자신에게 말해주기']]};
+  } else if (normScore <= 5) {
+    result = {img:'crystal_1.png', cls:'emerging', band:'🌤️ 구름 걷히는 수정이', name:'마음이 <small>회복 중이에요</small>', desc:'지난 2주가 조금 버거웠나 봐요. 하지만 이미 회복하려는 마음이 보여요. 이번 주에 조금씩 비워낸 자리에 햇살이 들어올 거예요.', todo:[['🌦️','이번 주 저녁 하나는 특별히 비워두기'], ['🧘','하루 10분, 좋아하는 활동에만 시간 쓰기'], ['📞','신뢰하는 사람에게 "요즘 어때?" 물어보기']]};
+  } else if (normScore <= 8) {
+    result = {img:'crystal_2.png', cls:'sunny', band:'☀️ 맑은 날의 수정이', name:'마음이 <small>생생하게 움직이고 있어요</small>', desc:'에너지가 활발한 지난 2주셨네요. 이 긍정적인 리듬이 계속 이어지도록 자신을 돌봐 주세요.', todo:[['☀️','좋은 컨디션의 비결 하나를 기억해두기'], ['✨','이 에너지로 할 수 있는 작은 목표 세우기'], ['🌟','요즘 자신의 노력을 자신에게 칭찬해주기']]};
   } else {
-    r = {
-      img:'crystal_3.png',
-      cls:'rainbow',
-      band:'🌈 무지개 수정이',
-      name:'마음이 <small>최고조에 도달했어요</small>',
-      desc:'지난 2주가 정말 좋은 시간이었나 봐요. 긍정적인 에너지가 넘치고 있어요. 이 밝은 마음이 주변 사람들도 밝혀주고 있을 거예요.',
-      todo:[
-        ['🌈','지금의 이 마음을 소중하게 간직해두기'],
-        ['💫','이 시간을 함께한 사람들에게 감사 전하기'],
-        ['⭐','앞으로도 이런 날들이 많아지길 바라며 일기 쓰기']
-      ]
-    };
+    result = {img:'crystal_3.png', cls:'rainbow', band:'🌈 무지개 수정이', name:'마음이 <small>최고조에 도달했어요</small>', desc:'지난 2주가 정말 좋은 시간이었나 봐요. 긍정적인 에너지가 넘치고 있어요.', todo:[['🌈','지금의 이 마음을 소중하게 간직해두기'], ['💫','이 시간을 함께한 사람들에게 감사 전하기'], ['⭐','앞으로도 이런 날들이 많아지길 바라며 일기 쓰기']]};
   }
 
-  document.getElementById('mascot-r').src = r.img;
+  document.getElementById('mascot-r').src = result.img;
   
-  // 진행률 바 업데이트
-  var stepNum = norm_score <= 2 ? 1 : norm_score <= 5 ? 2 : norm_score <= 8 ? 3 : 4;
-  var stepClass = {1:'', 2:'em', 3:'sun', 4:'rb'}[stepNum];
-  for(var s=1; s<=4; s++){
-    var step = document.getElementById('s'+s);
-    step.className = 'step' + (s <= stepNum ? ' on '+stepClass : '');
+  const stepNum = normScore <= 2 ? 1 : normScore <= 5 ? 2 : normScore <= 8 ? 3 : 4;
+  const stepClass = {1:'', 2:'em', 3:'sun', 4:'rb'}[stepNum];
+  for (let s = 1; s <= 4; s++) {
+    const step = document.getElementById('s' + s);
+    step.className = 'step' + (s <= stepNum ? ' on ' + stepClass : '');
   }
-  document.getElementById('progress-text').textContent = stepNum + ' / 4';
+  document.getElementById('progress-text').textContent = `${stepNum} / 4`;
   
-  var b = document.getElementById('band');
-  b.className = 'band ' + r.cls;
-  b.textContent = r.band;
-  document.getElementById('rname').innerHTML = r.name;
-  document.getElementById('rdesc').textContent = r.desc;
-  document.getElementById('todos').innerHTML = r.todo.map(function(t){
-    return '<div class="todo-item '+r.cls+'"><span class="ic">'+t[0]+'</span><span>'+t[1]+'</span></div>';
-  }).join('');
+  const b = document.getElementById('band');
+  b.className = 'band ' + result.cls;
+  b.textContent = result.band;
+  document.getElementById('rname').innerHTML = result.name;
+  document.getElementById('rdesc').textContent = result.desc;
+  document.getElementById('todos').innerHTML = result.todo.map(t => `<div class="todo-item ${result.cls}"><span class="ic">${t[0]}</span><span>${t[1]}</span></div>`).join('');
 
-  // Supabase에 결과 저장
-  saveResponse(score, norm_score, r.cls);
+  saveToDatabase(score, normScore, result.cls);
   show('s-result');
 }
 
-// Supabase에 응답 저장
-async function saveResponse(totalScore, normScore, category){
+async function saveToDatabase(totalScore, normScore, category) {
+  if (!supabase) return;
   try {
-    const { error } = await supabase
-      .from('responses')
-      .insert([{
-        total_score: totalScore,
-        normalized_score: normScore,
-        category: category,
-        answers: ans,
-        created_at: new Date().toISOString()
-      }]);
-    
-    if(error) {
-      console.log('Save failed:', error);
-    } else {
-      console.log('Response saved successfully');
-      // 참여자 수 업데이트
-      loadParticipantCount();
+    const { error } = await supabase.from('responses').insert([{
+      total_score: totalScore,
+      normalized_score: normScore,
+      category: category,
+      answers: answers,
+      created_at: new Date().toISOString()
+    }]);
+    if (!error) {
+      console.log('✓ Saved');
+      loadCount();
     }
-  } catch(e) {
-    console.log('Error:', e);
+  } catch (e) {
+    console.log('Save error:', e);
   }
 }
-function reset(){ i=0; ans.fill(null); show('s-intro'); }
+
+async function loadCount() {
+  if (!supabase) return;
+  try {
+    const { count, error } = await supabase.from('responses').select('*', { count: 'exact', head: true });
+    if (!error) {
+      document.getElementById('participant-count').textContent = count || 0;
+    }
+  } catch (e) {
+    console.log('Count error:', e);
+  }
+}
+
+function resetQuiz() {
+  qIdx = 0;
+  answers = [];
+  show('s-intro');
+}
+
+window.addEventListener('load', () => {
+  setTimeout(loadCount, 500);
+});
 </script>
 </body>
 </html>
