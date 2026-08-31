@@ -173,6 +173,38 @@ ul.plain li{margin-bottom:6px;font-size:14px;}
 .sharebox{margin-top:16px;display:flex;flex-direction:column;gap:10px;}
 .sharebox .tiny{min-height:1.2em;}
 
+/* ---------- 수정이 도감 ---------- */
+.allcard{
+  border:2px solid var(--edge);border-radius:18px;
+  margin-bottom:12px;overflow:hidden;background:#fff;
+}
+.allcard.rest{border-color:var(--rest);}
+.allcard.emerging{border-color:var(--emerging);}
+.allcard.sunny{border-color:var(--sunny);}
+.allcard.rainbow{border-color:var(--rainbow);}
+.allcard-head{
+  display:flex;align-items:center;gap:12px;width:100%;
+  border:0;background:transparent;cursor:pointer;
+  font-family:inherit;text-align:left;padding:12px 14px;
+}
+.allcard.rest .allcard-head{background:var(--rest-lt);}
+.allcard.emerging .allcard-head{background:var(--emerging-lt);}
+.allcard.sunny .allcard-head{background:var(--sunny-lt);}
+.allcard.rainbow .allcard-head{background:var(--rainbow-lt);}
+.allcard-head img{width:52px;height:auto;flex:none;image-rendering:crisp-edges;}
+.allcard-htxt{flex:1;display:flex;flex-direction:column;gap:4px;}
+.allcard-htxt .band{margin:0;align-self:flex-start;font-size:11.5px;padding:3px 10px;}
+.allcard-htxt b{font-size:16px;letter-spacing:-.3px;}
+.mine-tag{
+  font-style:normal;font-size:11px;font-weight:700;color:#fff;background:#FF9A5A;
+  border-radius:99px;padding:2px 8px;margin-left:4px;vertical-align:middle;
+}
+.chev{flex:none;color:var(--ink2);font-size:14px;transition:transform .2s;}
+.allcard.open .chev{transform:rotate(180deg);}
+.allcard-body{display:none;padding:4px 14px 14px;}
+.allcard.open .allcard-body{display:block;animation:in .25s ease both;}
+.allcard-body .rblock:first-child{margin-top:12px;}
+
 .todo{margin-top:16px;}
 .todo h3{font-size:15px;margin:0 0 10px;}
 .todo-item{
@@ -351,7 +383,22 @@ body{padding-bottom:78px;}
     더 자세한 자가점검은 청소년1388 심리검사 페이지에서도 받아볼 수 있어요.
   </div>
 
-  <button class="btn ghost" style="margin-top:16px;" onclick="reset()">처음부터 다시 하기</button>
+  <button class="btn" style="margin-top:16px;" onclick="openAll()">🔮 다른 수정이 보기</button>
+  <button class="btn ghost" style="margin-top:10px;" onclick="reset()">처음부터 다시 하기</button>
+</section>
+
+<!-- ============ 4. 수정이 도감 (전체 보기) ============ -->
+<section class="screen" id="s-all">
+  <div class="card">
+    <div style="text-align:center;">
+      <span class="tag">수정이 마음 날씨 도감</span>
+      <h2 style="margin:4px 0 6px;">4명의 수정이</h2>
+      <p class="tiny" style="margin:0;">점수대별로 만날 수 있는 마음 날씨예요.<br>카드를 누르면 자세한 이야기가 펼쳐져요.</p>
+    </div>
+    <div id="all-list" style="margin-top:16px;"></div>
+  </div>
+  <button class="btn" style="margin-top:16px;" onclick="show('s-result')">← 내 결과로 돌아가기</button>
+  <button class="btn ghost" style="margin-top:10px;" onclick="reset()">처음부터 다시 하기</button>
 </section>
 
 </div>
@@ -433,8 +480,87 @@ function pick(v){
 }
 function prev(){ if(i>0){ i--; render(); } }
 
+/* ---------- 결과 데이터 (4종 수정이) ---------- */
+var RESULTS = [
+  {
+    img:'crystal_0.png', cls:'rest', step:'',
+    range:'0~2점', emoji:'💧',
+    band:'💧 0~2점 · 보슬비 맞는 수정이',
+    name:'보슬비 맞는 수정이',
+    wic:'🌧️',
+    weather:'지금의 수정이는 보슬보슬 비가 내리는 날처럼, 마음의 에너지가 조금 낮아져 있는 상태예요. 평소보다 피곤하거나 의욕이 떨어지고, 작은 일에도 마음이 무거워질 수 있어요. 지금은 무언가를 더 열심히 해내려고 하기보다는, 잠시 멈춰서 나의 마음을 살펴보는 시간이 필요해요.',
+    letter:'오늘의 나는 조금 지쳐 있을 수 있어요. 괜찮은 척하지 않아도 괜찮아요. 잠시 쉬어가는 것도 앞으로 나아가기 위한 소중한 시간이니까요. 🌱',
+    tic:'☔',
+    todo:[
+      ['☕','따뜻한 음료 한 잔 마시기'],
+      ['🎧','좋아하는 음악 천천히 듣기'],
+      ['📴','잠깐 휴대폰을 내려놓고 쉬기'],
+      ['💬','오늘 하루 고생한 나에게 "잘했어"라고 말해주기']
+    ],
+    cheer:'비가 온다고 해서 계속 비가 오는 것은 아니에요. 오늘은 천천히, 내일은 조금 더 가볍게. 수정이의 마음에도 다시 햇살이 찾아올 거예요. ☀️'
+  },
+  {
+    img:'crystal_1.png', cls:'emerging', step:'em',
+    range:'3~5점', emoji:'🌤️',
+    band:'🌤️ 3~5점 · 구름 걷히는 수정이',
+    name:'구름 걷히는 수정이',
+    wic:'🌤️',
+    weather:'지금의 수정이는 흐린 구름 사이로 햇살이 조금씩 모습을 드러내고 있는 상태예요. 완전히 기운이 넘치지는 않지만, 스스로의 마음을 돌보고 다시 힘을 찾아갈 수 있는 회복과 변화의 과정에 있어요. 때로는 괜찮다가도 다시 조금 힘들어질 수 있어요. 하지만 그것이 뒤로 돌아간다는 의미는 아니에요. 마음의 날씨도 매일 조금씩 달라질 수 있으니까요.',
+    letter:'지금 당장 모든 것이 괜찮아질 필요는 없어요. 조금씩 좋아지고 있다면 그것만으로도 충분해요. 오늘의 작은 변화도 소중하게 바라봐 주세요. 🌱',
+    tic:'🌿',
+    todo:[
+      ['🚶','햇빛을 받으며 가볍게 산책하기'],
+      ['🗨️','좋아하는 사람과 이야기 나누기'],
+      ['📓','오늘 좋았던 일 하나 적어보기'],
+      ['✅','해야 할 일을 하나씩 천천히 해보기']
+    ],
+    cheer:'구름이 있다고 해서 햇살이 사라진 건 아니에요. 조금 흐린 오늘도 충분히 괜찮은 하루예요. 수정이의 속도로 천천히 맑아져도 좋아요. 🌤️'
+  },
+  {
+    img:'crystal_2.png', cls:'sunny', step:'sun',
+    range:'6~8점', emoji:'☀️',
+    band:'☀️ 6~8점 · 맑은 날의 수정이',
+    name:'맑은 날의 수정이',
+    wic:'☀️',
+    weather:'지금의 수정이는 따뜻한 햇살처럼 기분 좋은 에너지가 가득한 상태예요! 일상에서 즐거움을 느끼고, 새로운 일에 도전하거나 주변 사람들과 긍정적인 에너지를 나눌 여유도 있어 보여요. 지금처럼 좋은 상태를 유지하기 위해서는, 다른 사람을 챙기는 것만큼 나 자신을 챙기는 것도 중요해요.',
+    letter:'지금의 좋은 에너지를 마음껏 즐겨주세요! 항상 완벽하게 밝을 필요는 없어요. 가끔 흐린 날이 찾아와도 그것 역시 자연스러운 마음의 변화니까요. 🌿',
+    tic:'🌼',
+    todo:[
+      ['🎨','좋아하는 활동으로 기분 좋은 시간 보내기'],
+      ['🧑‍🤝‍🧑','친구와 즐거운 추억 만들기'],
+      ['📸','오늘의 행복한 순간 사진으로 남기기'],
+      ['🎁','나를 위한 작은 선물 하나 해주기']
+    ],
+    cheer:'오늘의 햇살 같은 마음을 소중히 간직해요. 나에게 따뜻한 사람이 되어주는 것도 잊지 말기! ☀️💛 수정이의 밝은 에너지가 주변에도 좋은 힘이 될 거예요.'
+  },
+  {
+    img:'crystal_3.png', cls:'rainbow', step:'rb',
+    range:'9~10점', emoji:'🌈',
+    band:'🌈 9~10점 · 무지개 수정이',
+    name:'무지개 수정이',
+    wic:'🌈',
+    weather:'지금의 수정이는 알록달록한 무지개처럼 긍정적인 에너지가 가득한 상태예요! 현재의 일상을 즐기고 있고, 나 자신과 주변을 바라보는 마음에도 여유가 있는 모습이에요. 지금 느끼고 있는 좋은 감정과 행복을 충분히 만끽하고 기억해 두는 것도 아주 소중해요. 앞으로 조금 흐린 날이 찾아왔을 때, 오늘의 기억이 작은 힘이 되어줄 수 있으니까요.',
+    letter:'오늘의 행복을 마음껏 즐겨도 좋아요! 행복한 순간은 크게 자랑하지 않아도, 오래 기억해 두어도 충분히 소중해요. 지금의 나에게 따뜻한 박수를 보내주세요. 👏💗',
+    tic:'🌈',
+    todo:[
+      ['📝','오늘 가장 행복했던 순간 기록하기'],
+      ['💌','소중한 사람에게 고마운 마음 전하기'],
+      ['💖','좋아하는 일을 마음껏 즐기기'],
+      ['📋','나만의 행복 리스트 만들어보기']
+    ],
+    cheer:'무지개는 비가 온 뒤에 더 선명하게 보여요. 앞으로 어떤 날씨가 찾아오더라도 수정이는 다시 자기만의 빛을 찾을 수 있어요. 🌈✨ 오늘의 반짝이는 마음을 오래 간직해요!'
+  }
+];
+
 /* ---------- 결과 ---------- */
 var lastResult = null;
+var lastResultIdx = -1;
+
+function todoHTML(r){
+  return r.todo.map(function(t){
+    return '<div class="todo-item '+r.cls+'"><span class="ic">'+t[0]+'</span><span>'+t[1]+'</span></div>';
+  }).join('');
+}
 
 function finish(){
   // 문항 1~8: 부정 문항(그럴수록 마음 에너지 낮음) → 역채점 (3 - 응답)
@@ -449,86 +575,18 @@ function finish(){
   // 0~30 점을 0~10 으로 정규화 (높을수록 좋음)
   var norm_score = Math.round(score / 3);
 
-  var r;
-  if(norm_score <= 2){
-    r = {
-      img:'crystal_0.png', cls:'rest',
-      band:'💧 0~2점 · 보슬비 맞는 수정이',
-      name:'보슬비 맞는 수정이',
-      wic:'🌧️',
-      weather:'지금의 수정이는 보슬보슬 비가 내리는 날처럼, 마음의 에너지가 조금 낮아져 있는 상태예요. 평소보다 피곤하거나 의욕이 떨어지고, 작은 일에도 마음이 무거워질 수 있어요. 지금은 무언가를 더 열심히 해내려고 하기보다는, 잠시 멈춰서 나의 마음을 살펴보는 시간이 필요해요.',
-      letter:'오늘의 나는 조금 지쳐 있을 수 있어요. 괜찮은 척하지 않아도 괜찮아요. 잠시 쉬어가는 것도 앞으로 나아가기 위한 소중한 시간이니까요. 🌱',
-      tic:'☔',
-      todo:[
-        ['☕','따뜻한 음료 한 잔 마시기'],
-        ['🎧','좋아하는 음악 천천히 듣기'],
-        ['📴','잠깐 휴대폰을 내려놓고 쉬기'],
-        ['💬','오늘 하루 고생한 나에게 "잘했어"라고 말해주기']
-      ],
-      cheer:'비가 온다고 해서 계속 비가 오는 것은 아니에요. 오늘은 천천히, 내일은 조금 더 가볍게. 수정이의 마음에도 다시 햇살이 찾아올 거예요. ☀️'
-    };
-  } else if(norm_score <= 5){
-    r = {
-      img:'crystal_1.png', cls:'emerging',
-      band:'🌤️ 3~5점 · 구름 걷히는 수정이',
-      name:'구름 걷히는 수정이',
-      wic:'🌤️',
-      weather:'지금의 수정이는 흐린 구름 사이로 햇살이 조금씩 모습을 드러내고 있는 상태예요. 완전히 기운이 넘치지는 않지만, 스스로의 마음을 돌보고 다시 힘을 찾아갈 수 있는 회복과 변화의 과정에 있어요. 때로는 괜찮다가도 다시 조금 힘들어질 수 있어요. 하지만 그것이 뒤로 돌아간다는 의미는 아니에요. 마음의 날씨도 매일 조금씩 달라질 수 있으니까요.',
-      letter:'지금 당장 모든 것이 괜찮아질 필요는 없어요. 조금씩 좋아지고 있다면 그것만으로도 충분해요. 오늘의 작은 변화도 소중하게 바라봐 주세요. 🌱',
-      tic:'🌿',
-      todo:[
-        ['🚶','햇빛을 받으며 가볍게 산책하기'],
-        ['🗨️','좋아하는 사람과 이야기 나누기'],
-        ['📓','오늘 좋았던 일 하나 적어보기'],
-        ['✅','해야 할 일을 하나씩 천천히 해보기']
-      ],
-      cheer:'구름이 있다고 해서 햇살이 사라진 건 아니에요. 조금 흐린 오늘도 충분히 괜찮은 하루예요. 수정이의 속도로 천천히 맑아져도 좋아요. 🌤️'
-    };
-  } else if(norm_score <= 8){
-    r = {
-      img:'crystal_2.png', cls:'sunny',
-      band:'☀️ 6~8점 · 맑은 날의 수정이',
-      name:'맑은 날의 수정이',
-      wic:'☀️',
-      weather:'지금의 수정이는 따뜻한 햇살처럼 기분 좋은 에너지가 가득한 상태예요! 일상에서 즐거움을 느끼고, 새로운 일에 도전하거나 주변 사람들과 긍정적인 에너지를 나눌 여유도 있어 보여요. 지금처럼 좋은 상태를 유지하기 위해서는, 다른 사람을 챙기는 것만큼 나 자신을 챙기는 것도 중요해요.',
-      letter:'지금의 좋은 에너지를 마음껏 즐겨주세요! 항상 완벽하게 밝을 필요는 없어요. 가끔 흐린 날이 찾아와도 그것 역시 자연스러운 마음의 변화니까요. 🌿',
-      tic:'🌼',
-      todo:[
-        ['🎨','좋아하는 활동으로 기분 좋은 시간 보내기'],
-        ['🧑‍🤝‍🧑','친구와 즐거운 추억 만들기'],
-        ['📸','오늘의 행복한 순간 사진으로 남기기'],
-        ['🎁','나를 위한 작은 선물 하나 해주기']
-      ],
-      cheer:'오늘의 햇살 같은 마음을 소중히 간직해요. 나에게 따뜻한 사람이 되어주는 것도 잊지 말기! ☀️💛 수정이의 밝은 에너지가 주변에도 좋은 힘이 될 거예요.'
-    };
-  } else {
-    r = {
-      img:'crystal_3.png', cls:'rainbow',
-      band:'🌈 9~10점 · 무지개 수정이',
-      name:'무지개 수정이',
-      wic:'🌈',
-      weather:'지금의 수정이는 알록달록한 무지개처럼 긍정적인 에너지가 가득한 상태예요! 현재의 일상을 즐기고 있고, 나 자신과 주변을 바라보는 마음에도 여유가 있는 모습이에요. 지금 느끼고 있는 좋은 감정과 행복을 충분히 만끽하고 기억해 두는 것도 아주 소중해요. 앞으로 조금 흐린 날이 찾아왔을 때, 오늘의 기억이 작은 힘이 되어줄 수 있으니까요.',
-      letter:'오늘의 행복을 마음껏 즐겨도 좋아요! 행복한 순간은 크게 자랑하지 않아도, 오래 기억해 두어도 충분히 소중해요. 지금의 나에게 따뜻한 박수를 보내주세요. 👏💗',
-      tic:'🌈',
-      todo:[
-        ['📝','오늘 가장 행복했던 순간 기록하기'],
-        ['💌','소중한 사람에게 고마운 마음 전하기'],
-        ['💖','좋아하는 일을 마음껏 즐기기'],
-        ['📋','나만의 행복 리스트 만들어보기']
-      ],
-      cheer:'무지개는 비가 온 뒤에 더 선명하게 보여요. 앞으로 어떤 날씨가 찾아오더라도 수정이는 다시 자기만의 빛을 찾을 수 있어요. 🌈✨ 오늘의 반짝이는 마음을 오래 간직해요!'
-    };
-  }
+  var idx = norm_score <= 2 ? 0 : norm_score <= 5 ? 1 : norm_score <= 8 ? 2 : 3;
+  var r = RESULTS[idx];
 
   lastResult = r;
+  lastResultIdx = idx;
   document.getElementById('mascot-r').src = r.img;
 
   // 진행률 바 업데이트
-  var stepNum = norm_score <= 2 ? 1 : norm_score <= 5 ? 2 : norm_score <= 8 ? 3 : 4;
-  var stepClass = {1:'', 2:'em', 3:'sun', 4:'rb'}[stepNum];
+  var stepNum = idx + 1;
   for(var s=1; s<=4; s++){
     var step = document.getElementById('s'+s);
-    step.className = 'step' + (s <= stepNum ? ' on '+stepClass : '');
+    step.className = 'step' + (s <= stepNum ? ' on '+RESULTS[s-1].step : '');
   }
   document.getElementById('progress-text').textContent = stepNum + ' / 4';
 
@@ -543,14 +601,43 @@ function finish(){
   document.getElementById('r-todo-ic').textContent = r.tic;
   document.getElementById('r-cheer').textContent = r.cheer;
 
-  document.getElementById('todos').innerHTML = r.todo.map(function(t){
-    return '<div class="todo-item '+r.cls+'"><span class="ic">'+t[0]+'</span><span>'+t[1]+'</span></div>';
-  }).join('');
+  document.getElementById('todos').innerHTML = todoHTML(r);
   document.getElementById('share-msg').textContent = '';
 
   // Supabase에 결과 저장
   saveResponse(score, norm_score, r.cls);
   show('s-result');
+}
+
+/* ---------- 다른 수정이 모두 보기 ---------- */
+function openAll(){
+  var list = document.getElementById('all-list');
+  list.innerHTML = RESULTS.map(function(r, n){
+    var mine = (n === lastResultIdx);
+    return ''+
+    '<div class="allcard '+r.cls+(mine?' open':'')+'" data-i="'+n+'">'+
+      '<button class="allcard-head" onclick="toggleCard('+n+')">'+
+        '<img src="'+r.img+'" alt="">'+
+        '<span class="allcard-htxt">'+
+          '<span class="band '+r.cls+'">'+r.emoji+' '+r.range+'</span>'+
+          '<b>'+r.name+(mine?' <em class="mine-tag">내 결과</em>':'')+'</b>'+
+        '</span>'+
+        '<span class="chev">▾</span>'+
+      '</button>'+
+      '<div class="allcard-body">'+
+        '<div class="rblock weather"><h3>'+r.wic+' 마음 날씨</h3><p>'+r.weather+'</p></div>'+
+        '<div class="rblock letter"><h3>💌 수정이에게</h3><p>'+r.letter+'</p></div>'+
+        '<div class="todo"><h3>'+r.tic+' 오늘의 추천</h3>'+todoHTML(r)+'</div>'+
+        '<div class="rblock cheer"><h3>🌷 한마디 응원</h3><p>'+r.cheer+'</p></div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+  show('s-all');
+}
+
+function toggleCard(n){
+  var el = document.querySelector('.allcard[data-i="'+n+'"]');
+  if(el) el.classList.toggle('open');
 }
 
 /* ---------- 결과 공유 ---------- */
